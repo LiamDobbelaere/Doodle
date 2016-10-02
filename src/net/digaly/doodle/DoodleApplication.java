@@ -8,16 +8,24 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
+
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Tom Dobbelaere on 1/10/2016.
@@ -27,15 +35,21 @@ public class DoodleApplication extends Application
     private static DoodleApplication instance;
     private Room currentRoom;
     private List<FrameUpdateListener> frameUpdateListeners;
+    private List<FrameDrawListener> frameDrawListeners;
     private List<KeyEventListener> keyEventListeners;
+    private List<ApplicationReadyListener> applicationReadyListeners;
     private HashMap<KeyCode, KeyEvent> heldKeys;
     private GraphicsContext gc;
+    private MediaPlayer musicPlayer;
+
 
     public static DoodleApplication getInstance() {
         if (instance == null) {
             instance = new DoodleApplication();
-            instance.frameUpdateListeners = new ArrayList<>();
-            instance.keyEventListeners = new ArrayList<>();
+            instance.frameUpdateListeners = new CopyOnWriteArrayList<>();
+            instance.keyEventListeners = new CopyOnWriteArrayList<>();
+            instance.applicationReadyListeners = new CopyOnWriteArrayList<>();
+            instance.frameDrawListeners = new CopyOnWriteArrayList<>();
             instance.heldKeys = new HashMap<>();
         }
 
@@ -93,26 +107,36 @@ public class DoodleApplication extends Application
             }
         }.start();
 
+        notifyApplicationReadyListener();
         primaryStage.show();
     }
 
     private void onFrame(double t) {
-        notifyFrameUpdateListeners(t);
+        notifyFrameUpdateListeners();
+
+        gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
 
         for (KeyCode key : instance.heldKeys.keySet()) {
             notifyKeyEventListeners(instance.heldKeys.get(key), KeyState.HOLDING);
         }
 
-        gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
+        if (!(getCurrentRoom() instanceof FrameDrawListener)) {
+            gc.drawImage(getCurrentRoom().getBackground().getImage(), 0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
+        } else {
+            ((FrameDrawListener) getCurrentRoom()).onFrameDraw(gc);
+        }
+
 
         for (Entity entity : instance.getCurrentRoom().getEntities()) {
-            gc.save();
-            Rotate rotate = new Rotate(entity.getAngle(), entity.getPosition().x + entity.getSprite().getImage().getWidth() / 2,
-                    entity.getPosition().y + entity.getSprite().getImage().getHeight() / 2);
-            gc.setTransform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(), rotate.getTy());
-            gc.drawImage(entity.getSprite().getImage(), entity.getPosition().x, entity.getPosition().y);
-            gc.restore();
+            if (!(entity instanceof FrameDrawListener)) {
+                gc.save();
+                gc.setGlobalAlpha(entity.getAlpha());
+                entity.draw(gc);
+                gc.restore();
+            }
         }
+
+        notifyFrameDrawListeners(gc);
     }
 
     public Room getCurrentRoom()
@@ -133,9 +157,9 @@ public class DoodleApplication extends Application
         instance.frameUpdateListeners.remove(listener);
     }
 
-    private void notifyFrameUpdateListeners(double t) {
+    private void notifyFrameUpdateListeners() {
         for (FrameUpdateListener listener : instance.frameUpdateListeners) {
-            listener.onFrameUpdate(t);
+            listener.onFrameUpdate();
         }
     }
 
@@ -151,5 +175,56 @@ public class DoodleApplication extends Application
         for (KeyEventListener listener : instance.keyEventListeners) {
             listener.onKeyEvent(keyEvent, keyState);
         }
+    }
+
+    public void addApplicationReadyListener(ApplicationReadyListener listener) {
+        instance.applicationReadyListeners.add(listener);
+    }
+
+    public void removeApplicationReadyListener(ApplicationReadyListener listener) {
+        instance.applicationReadyListeners.remove(listener);
+    }
+
+    private void notifyApplicationReadyListener() {
+        for (ApplicationReadyListener listener : instance.applicationReadyListeners) {
+            listener.onApplicationReady();
+        }
+    }
+
+    public void addFrameDrawListener(FrameDrawListener listener) {
+        instance.frameDrawListeners.add(listener);
+    }
+
+    public void removeFrameDrawListener(FrameDrawListener listener) {
+        instance.frameDrawListeners.remove(listener);
+    }
+
+    private void notifyFrameDrawListeners(GraphicsContext passedgc) {
+        for (FrameDrawListener listener : instance.frameDrawListeners) {
+            listener.onFrameDraw(passedgc);
+        }
+    }
+
+    public void playMusic(String filename) {
+        Media media = new Media(new File(filename).toURI().toString()); //replace /Movies/test.mp3 with your file
+
+        if (instance.musicPlayer != null) {
+            instance.musicPlayer.stop();
+        }
+
+        instance.musicPlayer = new MediaPlayer(media);
+        instance.musicPlayer.play();
+        instance.musicPlayer.setOnEndOfMedia(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                instance.musicPlayer.seek(Duration.ZERO);
+            }
+        });
+    }
+
+    public void setMusicVolume(double volume) {
+        instance.musicPlayer.setVolume(volume);
     }
 }

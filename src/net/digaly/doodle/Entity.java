@@ -1,5 +1,8 @@
 package net.digaly.doodle;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.transform.Rotate;
+
 /**
  * Created by Tom Dobbelaere on 2/10/2016.
  */
@@ -9,16 +12,15 @@ public class Entity
     private int angle;
     private Point position;
     private boolean visible;
-    private float alpha;
+    private double alpha;
 
-    public Entity(Sprite sprite, int x, int y) {
+    public Entity(Sprite sprite, double x, double y) {
         this.sprite = sprite;
         this.angle = 0;
         this.position = new Point(x, y);
         this.visible = true;
         this.alpha = 1;
     }
-
 
     public Sprite getSprite()
     {
@@ -66,13 +68,30 @@ public class Entity
         this.visible = visible;
     }
 
-    public float getAlpha()
+    public double getAlpha()
     {
+
         return alpha;
     }
 
-    public void setAlpha(float alpha)
+    public void setAlpha(double alpha)
     {
+        if (alpha > 1) alpha = 1;
+        if (alpha < 0) alpha = 0;
+
         this.alpha = alpha;
+    }
+
+    public void draw(GraphicsContext gc) {
+        gc.save();
+        Rotate rotate = new Rotate(getAngle(), getPosition().x + getSprite().getImage().getWidth() / 2,
+                getPosition().y + getSprite().getImage().getHeight() / 2);
+        gc.setTransform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(), rotate.getTy());
+        gc.drawImage(getSprite().getImage(), getPosition().x, getPosition().y);
+        gc.restore();
+    }
+
+    public void destroy() {
+        DoodleApplication.getInstance().getCurrentRoom().removeEntity(this);
     }
 }

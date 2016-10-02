@@ -12,6 +12,8 @@ public class Room
     private List<Entity> entities;
     private Dimension size;
 
+    private Sprite background;
+
     public Room(int width, int height) {
         this.entities = new ArrayList<>();
         this.size = new Dimension(width, height);
@@ -27,6 +29,28 @@ public class Room
         if (entity instanceof KeyEventListener) {
             DoodleApplication.getInstance().addKeyEventListener((KeyEventListener) entity);
         }
+
+        if (entity instanceof FrameDrawListener) {
+            DoodleApplication.getInstance().addFrameDrawListener((FrameDrawListener) entity);
+        }
+    }
+
+    public void removeEntity(Entity entity) {
+        this.entities.remove(entity);
+
+        if (entity instanceof FrameUpdateListener) {
+            DoodleApplication.getInstance().removeFrameUpdateListener((FrameUpdateListener) entity);
+        }
+
+        if (entity instanceof KeyEventListener) {
+            DoodleApplication.getInstance().removeKeyEventListener((KeyEventListener) entity);
+        }
+
+        if (entity instanceof FrameDrawListener) {
+            DoodleApplication.getInstance().removeFrameDrawListener((FrameDrawListener) entity);
+        }
+
+        entity = null;
     }
 
     protected List<Entity> getEntities() {
@@ -35,5 +59,15 @@ public class Room
 
     public Dimension getSize() {
         return this.size;
+    }
+
+    public Sprite getBackground()
+    {
+        return background;
+    }
+
+    public void setBackground(Sprite background)
+    {
+        this.background = background;
     }
 }
