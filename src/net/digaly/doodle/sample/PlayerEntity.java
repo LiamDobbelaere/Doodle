@@ -3,6 +3,7 @@ package net.digaly.doodle.sample;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
 import net.digaly.doodle.*;
 
 /**
@@ -17,6 +18,8 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
     private Sprite spriteBackwards;
     private Sprite spriteNone;
 
+    private AudioClip bark;
+
     public PlayerEntity(double x, double y)
     {
         super(new Sprite("ship_n.png"), x, y);
@@ -24,6 +27,7 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
         spriteNone = new Sprite("ship_n.png");
         spriteForwards = new Sprite("ship_f.png");
         spriteBackwards = new Sprite("ship_b.png");
+        bark = DoodleApplication.getInstance().createAudioClip("bark.wav");
 
         speed = 0;
     }
@@ -73,9 +77,13 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
             }
         }
 
-        if (keyState == KeyState.PRESSED) {
+        if (keyState == KeyState.RELEASED) {
             if (keyEvent.getCode() == KeyCode.Z) {
                 DoodleApplication.getInstance().getCurrentRoom().addEntity(new PlayerEntity(0, 0));
+            }
+
+            if (keyEvent.getCode() == KeyCode.E) {
+                DoodleApplication.getInstance().playSound(bark);
             }
         }
     }

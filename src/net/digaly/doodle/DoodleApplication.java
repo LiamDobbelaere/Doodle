@@ -11,6 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.transform.Rotate;
@@ -126,6 +127,7 @@ public class DoodleApplication extends Application
             ((FrameDrawListener) getCurrentRoom()).onFrameDraw(gc);
         }
 
+        notifyFrameDrawListeners(gc);
 
         for (Entity entity : instance.getCurrentRoom().getEntities()) {
             if (!(entity instanceof FrameDrawListener)) {
@@ -135,8 +137,6 @@ public class DoodleApplication extends Application
                 gc.restore();
             }
         }
-
-        notifyFrameDrawListeners(gc);
     }
 
     public Room getCurrentRoom()
@@ -226,5 +226,13 @@ public class DoodleApplication extends Application
 
     public void setMusicVolume(double volume) {
         instance.musicPlayer.setVolume(volume);
+    }
+
+    public AudioClip createAudioClip(String filename) {
+        return new AudioClip(this.getClass().getResource("/" + filename).toExternalForm());
+    }
+
+    public void playSound(AudioClip clip) {
+        clip.play();
     }
 }

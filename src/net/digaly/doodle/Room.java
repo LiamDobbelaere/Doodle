@@ -53,6 +53,16 @@ public class Room
         entity = null;
     }
 
+    public Entity findEntity(Class search) {
+        for (Entity entity : entities) {
+            if (entity.getClass() == search) {
+                return entity;
+            }
+        }
+
+        return null;
+    }
+
     protected List<Entity> getEntities() {
         return this.entities;
     }

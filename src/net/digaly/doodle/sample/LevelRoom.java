@@ -1,6 +1,7 @@
 package net.digaly.doodle.sample;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import net.digaly.doodle.FrameDrawListener;
 import net.digaly.doodle.Room;
 
@@ -13,6 +14,11 @@ public class LevelRoom extends Room implements FrameDrawListener
     {
         super(width, height);
 
+        for (int i = 0; i < 16; i++) {
+            for (int j = 0; j < 16; j++) {
+                this.addEntity(new TileEntity(null, i * 64, j * 64));
+            }
+        }
         this.addEntity(new PlayerEntity(0, 0));
     }
 
@@ -20,6 +26,7 @@ public class LevelRoom extends Room implements FrameDrawListener
     @Override
     public void onFrameDraw(GraphicsContext gc)
     {
+        gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
     }
 }
