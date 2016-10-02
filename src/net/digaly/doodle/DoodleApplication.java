@@ -127,15 +127,17 @@ public class DoodleApplication extends Application
             ((FrameDrawListener) getCurrentRoom()).onFrameDraw(gc);
         }
 
-        notifyFrameDrawListeners(gc);
-
         for (Entity entity : instance.getCurrentRoom().getEntities()) {
+            gc.save();
+            gc.setGlobalAlpha(entity.getAlpha());
+
             if (!(entity instanceof FrameDrawListener)) {
-                gc.save();
-                gc.setGlobalAlpha(entity.getAlpha());
                 entity.draw(gc);
-                gc.restore();
+            } else {
+                ((FrameDrawListener) entity).onFrameDraw(gc);
             }
+
+            gc.restore();
         }
     }
 
