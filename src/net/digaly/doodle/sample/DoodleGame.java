@@ -23,7 +23,7 @@ public class DoodleGame implements ApplicationReadyListener
     @Override
     public void onApplicationReady()
     {
-        DoodleApplication.getInstance().playMusic("res\\menu.mp3");
+        DoodleApplication.getInstance().playMusic("res\\music.mp3");
         DoodleApplication.getInstance().setMusicVolume(0.5);
     }
 }

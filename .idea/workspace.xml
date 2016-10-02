@@ -23,10 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PlayerEntity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PlayerEntity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/PlayerEntity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="508">
+            <state relative-caret-position="916">
               <caret line="87" column="9" selection-start-line="87" selection-start-column="9" selection-end-line="87" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -38,8 +38,8 @@
       <file leaf-file-name="TileEntity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/TileEntity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+            <state relative-caret-position="306">
+              <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#344#345#0" expanded="true" />
@@ -73,13 +73,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ship.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/ship.png">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Point.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/Point.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -93,8 +86,8 @@
       <file leaf-file-name="DoodleApplication.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/DoodleApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="516">
-              <caret line="235" column="20" selection-start-line="235" selection-start-column="20" selection-end-line="235" selection-end-column="20" />
+            <state relative-caret-position="414">
+              <caret line="138" column="9" selection-start-line="138" selection-start-column="9" selection-end-line="138" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1970#1971#0" expanded="true" />
@@ -124,14 +117,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LevelRoom.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LevelRoom.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/LevelRoom.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+            <state relative-caret-position="272">
+              <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DoodleGame.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/DoodleGame.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="25" column="61" selection-start-line="25" selection-start-column="61" selection-end-line="25" selection-end-column="61" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -199,15 +202,15 @@
         <option value="$PROJECT_DIR$/src/net/digaly/doodle/sample/DoodleTest.java" />
         <option value="$PROJECT_DIR$/src/net/digaly/doodle/FrameUpdateListener.java" />
         <option value="$PROJECT_DIR$/src/net/digaly/doodle/FrameDrawListener.java" />
-        <option value="$PROJECT_DIR$/src/net/digaly/doodle/sample/DoodleGame.java" />
         <option value="$PROJECT_DIR$/src/net/digaly/doodle/Entity.java" />
         <option value="$PROJECT_DIR$/src/net/digaly/doodle/sample/PlayerTrailEntity.java" />
         <option value="$PROJECT_DIR$/src/net/digaly/doodle/Room.java" />
-        <option value="$PROJECT_DIR$/src/net/digaly/doodle/sample/LevelRoom.java" />
         <option value="$PROJECT_DIR$/src/net/digaly/doodle/Sprite.java" />
-        <option value="$PROJECT_DIR$/src/net/digaly/doodle/sample/TileEntity.java" />
-        <option value="$PROJECT_DIR$/src/net/digaly/doodle/DoodleApplication.java" />
         <option value="$PROJECT_DIR$/src/net/digaly/doodle/sample/PlayerEntity.java" />
+        <option value="$PROJECT_DIR$/src/net/digaly/doodle/sample/TileEntity.java" />
+        <option value="$PROJECT_DIR$/src/net/digaly/doodle/sample/DoodleGame.java" />
+        <option value="$PROJECT_DIR$/src/net/digaly/doodle/DoodleApplication.java" />
+        <option value="$PROJECT_DIR$/src/net/digaly/doodle/sample/LevelRoom.java" />
       </list>
     </option>
   </component>
@@ -797,12 +800,12 @@
       <option name="presentableId" value="Default" />
       <updated>1475330204374</updated>
       <workItem from="1475330382485" duration="7040000" />
-      <workItem from="1475398925464" duration="31678000" />
+      <workItem from="1475398925464" duration="32669000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38718000" />
+    <option name="totallyTimeSpent" value="39709000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1020,17 +1023,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/DoodleGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
-          <folding>
-            <element signature="e#396#397#0" expanded="true" />
-            <element signature="e#430#431#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/ship_n.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -1061,49 +1053,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/LevelRoom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/Room.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="62" column="20" selection-start-line="62" selection-start-column="20" selection-end-line="62" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1824#1825#0" expanded="true" />
-            <element signature="e#1860#1861#0" expanded="true" />
-            <element signature="e#1967#1968#0" expanded="true" />
-            <element signature="e#2000#2001#0" expanded="true" />
-            <element signature="e#2056#2057#0" expanded="true" />
-            <element signature="e#2100#2101#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/Sprite.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/TileEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#344#345#0" expanded="true" />
-            <element signature="e#379#380#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1117,10 +1071,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/PlayerEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="916">
+          <caret line="87" column="9" selection-start-line="87" selection-start-column="9" selection-end-line="87" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/DoodleGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="25" column="61" selection-start-line="25" selection-start-column="61" selection-end-line="25" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/DoodleApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="516">
-          <caret line="235" column="20" selection-start-line="235" selection-start-column="20" selection-end-line="235" selection-end-column="20" />
+        <state relative-caret-position="414">
+          <caret line="138" column="9" selection-start-line="138" selection-start-column="9" selection-end-line="138" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1970#1971#0" expanded="true" />
@@ -1149,10 +1121,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/PlayerEntity.java">
+    <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/TileEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="87" column="9" selection-start-line="87" selection-start-column="9" selection-end-line="87" selection-end-column="9" />
+        <state relative-caret-position="306">
+          <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#344#345#0" expanded="true" />
+            <element signature="e#379#380#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/Room.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="474">
+          <caret line="62" column="20" selection-start-line="62" selection-start-column="20" selection-end-line="62" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1824#1825#0" expanded="true" />
+            <element signature="e#1860#1861#0" expanded="true" />
+            <element signature="e#1967#1968#0" expanded="true" />
+            <element signature="e#2000#2001#0" expanded="true" />
+            <element signature="e#2056#2057#0" expanded="true" />
+            <element signature="e#2100#2101#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/digaly/doodle/sample/LevelRoom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

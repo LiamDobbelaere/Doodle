@@ -25,9 +25,7 @@ public class TileEntity extends Entity implements FrameDrawListener, FrameUpdate
 
         double size = 32 + alpha * 16;
 
-        PlayerEntity e = (PlayerEntity) DoodleApplication.getInstance().getCurrentRoom().findEntity(PlayerEntity.class);
-
-        //gc.setFill(Color.WHITE);
+        gc.setFill(Color.WHITE);
         gc.fillRect(getPosition().x - size / 2, getPosition().y - size / 2, size, size);
         //gc.fillOval(getPosition().x - 4, getPosition().y - 4, 8, 8);
         //gc.setStroke(Color.WHITE);
