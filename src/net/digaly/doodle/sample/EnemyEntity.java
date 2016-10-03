@@ -10,6 +10,7 @@ import net.digaly.doodle.Sprite;
  */
 public class EnemyEntity extends Entity implements FrameUpdateListener
 {
+    private PlayerEntity player;
     double frames = 0;
 
     public EnemyEntity(double x, double y)
@@ -20,10 +21,10 @@ public class EnemyEntity extends Entity implements FrameUpdateListener
     @Override
     public void onFrameUpdate()
     {
-        PlayerEntity e = (PlayerEntity) DoodleApplication.getInstance().getCurrentRoom().findEntity(PlayerEntity.class);
+        if (player == null) player = (PlayerEntity) DoodleApplication.getInstance().getCurrentRoom().findEntity(PlayerEntity.class);
 
-        double deltaX = getPosition().x - e.getPosition().x;
-        double deltaY = getPosition().y - e.getPosition().y;
+        double deltaX = getPosition().x - player.getPosition().x;
+        double deltaY = getPosition().y - player.getPosition().y;
         double angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
 
         getPosition().translate(Math.cos(frames) + Math.cos(angle * 0.017) * -2, Math.sin(frames) + Math.sin(angle * 0.017) * -2);

@@ -9,6 +9,8 @@ import net.digaly.doodle.*;
  */
 public class TileEntity extends Entity implements FrameDrawListener, FrameUpdateListener
 {
+    private PlayerEntity player;
+
     public TileEntity(Sprite sprite, double x, double y)
     {
         super(sprite, x, y);
@@ -38,10 +40,10 @@ public class TileEntity extends Entity implements FrameDrawListener, FrameUpdate
     @Override
     public void onFrameUpdate()
     {
-        PlayerEntity e = (PlayerEntity) DoodleApplication.getInstance().getCurrentRoom().findEntity(PlayerEntity.class);
+        if (player == null) player = (PlayerEntity) DoodleApplication.getInstance().getCurrentRoom().findEntity(PlayerEntity.class);
 
-        double dist = 64 / ((Math.max(getPosition().x, e.getPosition().x + e.getSprite().getImage().getWidth() / 2) - Math.min(getPosition().x, e.getPosition().x + e.getSprite().getImage().getWidth() / 2))
-                + (Math.max(getPosition().y, e.getPosition().y + e.getSprite().getImage().getHeight() / 2) - Math.min(getPosition().y, e.getPosition().y + e.getSprite().getImage().getHeight() / 2)));
+        double dist = 64 / ((Math.max(getPosition().x, player.getPosition().x + player.getSprite().getImage().getWidth() / 2) - Math.min(getPosition().x, player.getPosition().x + player.getSprite().getImage().getWidth() / 2))
+                + (Math.max(getPosition().y, player.getPosition().y + player.getSprite().getImage().getHeight() / 2) - Math.min(getPosition().y, player.getPosition().y + player.getSprite().getImage().getHeight() / 2)));
         setAlpha(dist);
 
     }
