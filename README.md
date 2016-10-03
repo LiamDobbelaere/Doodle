@@ -92,7 +92,7 @@ _Use when you want to know about mouse clicks, presses, releases and more_
 _Use when you want to know about button presses, releases and holds_
 * FrameUpdateListener  
 _Use when you want to know when a new frame starts_
-* FrameDrawListener
+* FrameDrawListener  
 _Use when you want to know when a new frame is drawn, and maybe add custom draw code for your entity_
 
 When an entity is **added to a room**, it will automatically subscribe to the events that it needs and receive updates in the respective methods like you see above.
