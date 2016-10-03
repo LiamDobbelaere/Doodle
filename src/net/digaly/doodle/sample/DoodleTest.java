@@ -15,6 +15,7 @@ public class DoodleTest
         app.setCurrentRoom(myGame.getCurrentRoom());
         app.setTitle("Doodle Sample Game");
         app.setIcon("icon.png");
+        //app.setFullscreen(true);
 
         app.run();
     }
