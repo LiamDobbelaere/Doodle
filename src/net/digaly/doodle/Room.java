@@ -2,6 +2,7 @@ package net.digaly.doodle;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -19,6 +20,10 @@ public class Room
         this.size = new Dimension(width, height);
     }
 
+    public void sortEntitiesByDepth() {
+        entities.sort(Comparator.comparing(Entity::getDepth));
+    }
+
     public void addEntity(Entity entity) {
         this.entities.add(entity);
 
@@ -33,6 +38,12 @@ public class Room
         if (entity instanceof FrameDrawListener) {
             DoodleApplication.getInstance().addFrameDrawListener((FrameDrawListener) entity);
         }
+
+        if (entity instanceof MouseEventListener) {
+            DoodleApplication.getInstance().addMouseEventListener((MouseEventListener) entity);
+        }
+
+        sortEntitiesByDepth();
     }
 
     public void removeEntity(Entity entity) {
@@ -49,6 +60,12 @@ public class Room
         if (entity instanceof FrameDrawListener) {
             DoodleApplication.getInstance().removeFrameDrawListener((FrameDrawListener) entity);
         }
+
+        if (entity instanceof MouseEventListener) {
+            DoodleApplication.getInstance().removeMouseEventListener((MouseEventListener) entity);
+        }
+
+        sortEntitiesByDepth();
 
         entity = null;
     }

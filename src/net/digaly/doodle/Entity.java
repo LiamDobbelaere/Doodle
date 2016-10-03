@@ -14,6 +14,8 @@ public class Entity
     private boolean visible;
     private double alpha;
 
+    private int depth;
+
     public Entity(Sprite sprite, double x, double y) {
         this.sprite = sprite;
         this.angle = 0;
@@ -93,5 +95,15 @@ public class Entity
 
     public void destroy() {
         DoodleApplication.getInstance().getCurrentRoom().removeEntity(this);
+    }
+
+    public int getDepth()
+    {
+        return depth;
+    }
+
+    public void setDepth(int depth)
+    {
+        this.depth = depth;
     }
 }

@@ -3,13 +3,16 @@ package net.digaly.doodle.sample;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
 import net.digaly.doodle.*;
+
+import java.util.Random;
 
 /**
  * Created by Tom Dobbelaere on 2/10/2016.
  */
-public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEventListener
+public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEventListener, MouseEventListener
 {
     private double speed;
     private int turnSpeed = 5;
@@ -17,18 +20,25 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
     private Sprite spriteForwards;
     private Sprite spriteBackwards;
     private Sprite spriteNone;
+    private Sprite spriteBullet;
 
-    private AudioClip bark;
+    private Random random;
+
+    private int shootDelay ;
 
     public PlayerEntity(double x, double y)
     {
         super(new Sprite("ship_n.png"), x, y);
 
+        setDepth(100);
+
         spriteNone = new Sprite("ship_n.png");
         spriteForwards = new Sprite("ship_f.png");
         spriteBackwards = new Sprite("ship_b.png");
-        bark = DoodleApplication.getInstance().createAudioClip("bark.wav");
+        spriteBullet = new Sprite("bullet.png");
+        random = new Random();
 
+        shootDelay = 0;
         speed = 0;
     }
 
@@ -52,6 +62,8 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
 
         setSprite(spriteNone);
 
+        if (shootDelay > 0) shootDelay -= 1;
+
         //gc.fillOval(getPosition().x, getPosition().y, 32, 32);
     }
 
@@ -74,17 +86,35 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
                 case RIGHT:
                     setAngle(getAngle() + turnSpeed);
                     break;
+                case Z:
+                    if (shootDelay == 0) {
+                        int angleSwing = -5 + random.nextInt(10);
+
+                        DoodleApplication.getInstance().getCurrentRoom().addEntity(new BulletEntity(spriteBullet, getPosition().x + 20, getPosition().y + 32, getAngle()+ angleSwing, 10));
+
+                        angleSwing = -5 + random.nextInt(10);
+
+                        DoodleApplication.getInstance().getCurrentRoom().addEntity(new BulletEntity(spriteBullet, getPosition().x + 20, getPosition().y + 32, getAngle()+ angleSwing, 10));
+                        shootDelay = 5;
+                        DoodleApplication.getInstance().playSound("res\\shoot.wav");
+                    }
+                    break;
             }
         }
 
         if (keyState == KeyState.RELEASED) {
-            if (keyEvent.getCode() == KeyCode.Z) {
-                DoodleApplication.getInstance().getCurrentRoom().addEntity(new PlayerEntity(0, 0));
-            }
-
             if (keyEvent.getCode() == KeyCode.E) {
-                DoodleApplication.getInstance().playSound(bark);
+                //DoodleApplication.getInstance().playSound(bark);
             }
+        }
+    }
+
+    @Override
+    public void onMouseEvent(MouseEvent event, boolean isLocal)
+    {
+
+        if (isLocal && event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+            setVisible(!isVisible());
         }
     }
 }

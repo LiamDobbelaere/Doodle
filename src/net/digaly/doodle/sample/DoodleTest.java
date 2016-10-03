@@ -13,6 +13,8 @@ public class DoodleTest
 
         app.addApplicationReadyListener(myGame);
         app.setCurrentRoom(myGame.getCurrentRoom());
+        app.setTitle("Doodle Sample Game");
+        app.setIcon("icon.png");
 
         app.run();
     }

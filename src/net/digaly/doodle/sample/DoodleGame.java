@@ -11,7 +11,7 @@ public class DoodleGame implements ApplicationReadyListener
     private Entity testEntity;
 
     public DoodleGame() {
-        Room testRoom = new LevelRoom(800, 600);
+        Room testRoom = new LevelRoom(1024, 768);
         this.currentRoom = testRoom;;
     }
 
@@ -23,7 +23,7 @@ public class DoodleGame implements ApplicationReadyListener
     @Override
     public void onApplicationReady()
     {
-        DoodleApplication.getInstance().playMusic("res\\music.mp3");
-        DoodleApplication.getInstance().setMusicVolume(0.5);
+        //DoodleApplication.getInstance().playMusic("res\\music.mp3");
+        //DoodleApplication.getInstance().setMusicVolume(0.5);
     }
 }

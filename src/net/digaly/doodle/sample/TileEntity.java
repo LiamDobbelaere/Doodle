@@ -21,11 +21,12 @@ public class TileEntity extends Entity implements FrameDrawListener, FrameUpdate
 
         double alpha = getAlpha();
 
-        gc.setGlobalAlpha(alpha);
+        gc.setGlobalAlpha(alpha / 3);
 
-        double size = 32 + alpha * 16;
+        double size = 32 + alpha * 32;
 
-        gc.setFill(Color.WHITE);
+        gc.drawImage(getSprite().getImage(), getPosition().x - size / 2, getPosition().y - size / 2, size, size);
+        //gc.setFill(Color.YELLOW);
         //gc.fillRect(getPosition().x - size / 2, getPosition().y - size / 2, size, size);
         //gc.fillOval(getPosition().x - 4, getPosition().y - 4, 8, 8);
         //gc.setStroke(Color.WHITE);
