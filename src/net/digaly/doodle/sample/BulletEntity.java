@@ -1,13 +1,15 @@
 package net.digaly.doodle.sample;
 
+import net.digaly.doodle.DoodleApplication;
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.Sprite;
+import net.digaly.doodle.events.CollisionEventListener;
 import net.digaly.doodle.events.FrameUpdateListener;
 
 /**
  * Created by Tom Dobbelaere on 3/10/2016.
  */
-public class BulletEntity extends Entity implements FrameUpdateListener
+public class BulletEntity extends Entity implements FrameUpdateListener, CollisionEventListener
 {
     private int speed;
     private int frames;
@@ -30,5 +32,15 @@ public class BulletEntity extends Entity implements FrameUpdateListener
         setAlpha(getAlpha() - 0.01);
 
         if (getAlpha() <= 0) destroy();
+    }
+
+    @Override
+    public void onCollision(Entity other)
+    {
+        if (other instanceof EnemyEntity) {
+            DoodleApplication.getInstance().getSoundManager().playSound("res\\hit.wav", 0.2);
+            ((EnemyEntity) other).damage(1);
+            destroy();
+        }
     }
 }

@@ -85,6 +85,8 @@ public class Entity
     }
 
     public void draw(GraphicsContext gc) {
+        if (getSprite() == null) return;
+
         gc.save();
         Rotate rotate = new Rotate(getAngle(), getPosition().x + getSprite().getOrigin().x,
                 getPosition().y + getSprite().getOrigin().y);

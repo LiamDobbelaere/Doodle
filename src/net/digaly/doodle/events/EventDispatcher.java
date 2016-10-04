@@ -3,6 +3,7 @@ package net.digaly.doodle.events;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import net.digaly.doodle.Entity;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -17,6 +18,7 @@ public class EventDispatcher
     private List<KeyEventListener> keyEventListeners;
     private List<MouseEventListener> mouseEventListeners;
     private List<ApplicationReadyListener> applicationReadyListeners;
+    private List<CollisionEventListener> collisionEventListeners;
 
     public EventDispatcher() {
         frameUpdateListeners = new CopyOnWriteArrayList<>();
@@ -24,6 +26,7 @@ public class EventDispatcher
         applicationReadyListeners = new CopyOnWriteArrayList<>();
         frameDrawListeners = new CopyOnWriteArrayList<>();
         mouseEventListeners = new CopyOnWriteArrayList<>();
+        collisionEventListeners = new CopyOnWriteArrayList<>();
     }
 
     public void addFrameUpdateListener(FrameUpdateListener listener) {
@@ -93,6 +96,20 @@ public class EventDispatcher
     public void notifyMouseEventListeners(MouseEvent event, boolean isLocal) {
         for (MouseEventListener listener : mouseEventListeners) {
             listener.onMouseEvent(event, isLocal);
+        }
+    }
+
+    public void addCollisionEventListener(CollisionEventListener listener) {
+        collisionEventListeners.add(listener);
+    }
+
+    public void removeCollisionEventListener(CollisionEventListener listener) {
+        collisionEventListeners.remove(listener);
+    }
+
+    public void notifyCollisionEventListeners(Entity other) {
+        for (CollisionEventListener listener : collisionEventListeners) {
+            listener.onCollision(other);
         }
     }
 }

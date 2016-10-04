@@ -36,12 +36,23 @@ public class SoundManager
         musicPlayer.setVolume(volume);
     }
 
-    public void playSound(String filename) {
 
+
+    private MediaPlayer spawnSound(String filename) {
         Media media = new Media(new File(filename).toURI().toString()); //replace /Movies/test.mp3 with your file
         MediaPlayer m = new MediaPlayer(media);
         soundPool.add(m);
         m.setOnEndOfMedia(() -> soundPool.remove(m));
+        return m;
+    }
+
+    public void playSound(String filename) {
+        spawnSound(filename).play();
+    }
+
+    public void playSound(String filename, double volume) {
+        MediaPlayer m = spawnSound(filename);
+        m.setVolume(volume);
         m.play();
     }
 }

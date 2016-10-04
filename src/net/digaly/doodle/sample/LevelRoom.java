@@ -25,8 +25,6 @@ public class LevelRoom extends Room
         }
         this.addEntity(new PlayerEntity(0, 0));
 
-        //for (int i = 0; i < 32; i++) {
-            this.addEntity(new EnemyEntity(random.nextInt((int) getSize().getWidth()), random.nextInt((int) getSize().getHeight())));
-        //}
+        this.addEntity(new SpawnerEntity(0, 0));
     }
 }

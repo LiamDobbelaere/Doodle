@@ -1,14 +1,12 @@
 package net.digaly.doodle;
 
-import net.digaly.doodle.events.FrameDrawListener;
-import net.digaly.doodle.events.FrameUpdateListener;
-import net.digaly.doodle.events.KeyEventListener;
-import net.digaly.doodle.events.MouseEventListener;
+import net.digaly.doodle.events.*;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Tom Dobbelaere on 2/10/2016.
@@ -21,7 +19,7 @@ public class Room
     private Sprite background;
 
     public Room(int width, int height) {
-        this.entities = new ArrayList<>();
+        this.entities = new CopyOnWriteArrayList<>();
         this.size = new Dimension(width, height);
     }
 
@@ -48,6 +46,10 @@ public class Room
             DoodleApplication.getInstance().getEventDispatcher().addMouseEventListener((MouseEventListener) entity);
         }
 
+        if (entity instanceof CollisionEventListener) {
+            DoodleApplication.getInstance().getEventDispatcher().addCollisionEventListener((CollisionEventListener) entity);
+        }
+
         sortEntitiesByDepth();
     }
 
@@ -68,6 +70,10 @@ public class Room
 
         if (entity instanceof MouseEventListener) {
             DoodleApplication.getInstance().getEventDispatcher().removeMouseEventListener((MouseEventListener) entity);
+        }
+
+        if (entity instanceof CollisionEventListener) {
+            DoodleApplication.getInstance().getEventDispatcher().removeCollisionEventListener((CollisionEventListener) entity);
         }
 
         sortEntitiesByDepth();
