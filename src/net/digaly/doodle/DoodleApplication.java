@@ -17,10 +17,8 @@ import javafx.scene.text.Font;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import net.digaly.doodle.audio.SoundManager;
-import net.digaly.doodle.events.EventDispatcher;
-import net.digaly.doodle.events.FrameDrawListener;
-import net.digaly.doodle.events.KeyState;
-import net.digaly.doodle.events.MouseEventListener;
+import net.digaly.doodle.events.*;
+import net.digaly.doodle.util.DoodleUtil;
 
 import java.util.Hashtable;
 
@@ -150,6 +148,20 @@ public class DoodleApplication extends Application
             gc.drawImage(getCurrentRoom().getBackground().getImage(), 0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         } else {
             ((FrameDrawListener) getCurrentRoom()).onFrameDraw(gc);
+        }
+
+        for (Entity entity : instance.getCurrentRoom().getEntities()) {
+
+            if (!(entity instanceof CollisionEventListener) || entity.getSprite() == null) continue;
+
+            for (Entity other : instance.getCurrentRoom().getEntities()) {
+                if (other.getSprite() == null) continue;
+
+                if (DoodleUtil.rectangleOverlaps(entity.getPosition().x, entity.getPosition().y, entity.getSprite().getImage().getWidth(), entity.getSprite().getImage().getHeight(),
+                        other.getPosition().x, other.getPosition().y, other.getSprite().getImage().getWidth(), other.getSprite().getImage().getHeight())) {
+                    ((CollisionEventListener) entity).onCollision(other);
+                }
+            }
         }
 
         for (Entity entity : instance.getCurrentRoom().getEntities()) {
