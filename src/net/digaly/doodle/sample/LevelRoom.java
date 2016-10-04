@@ -1,12 +1,8 @@
 package net.digaly.doodle.sample;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import net.digaly.doodle.FrameDrawListener;
 import net.digaly.doodle.Room;
 import net.digaly.doodle.Sprite;
 
-import java.awt.*;
 import java.util.Random;
 
 /**

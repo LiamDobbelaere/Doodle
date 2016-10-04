@@ -1,11 +1,15 @@
 package net.digaly.doodle.sample;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.AudioClip;
-import net.digaly.doodle.*;
+import net.digaly.doodle.DoodleApplication;
+import net.digaly.doodle.Entity;
+import net.digaly.doodle.Sprite;
+import net.digaly.doodle.events.FrameUpdateListener;
+import net.digaly.doodle.events.KeyEventListener;
+import net.digaly.doodle.events.KeyState;
+import net.digaly.doodle.events.MouseEventListener;
 
 import java.util.Random;
 
@@ -96,7 +100,7 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
 
                         DoodleApplication.getInstance().getCurrentRoom().addEntity(new BulletEntity(spriteBullet, getPosition().x + 20, getPosition().y + 32, getAngle()+ angleSwing, 10));
                         shootDelay = 5;
-                        DoodleApplication.getInstance().playSound("res\\shoot.wav");
+                        DoodleApplication.getInstance().getSoundManager().playSound("res\\shoot.wav");
                     }
                     break;
             }

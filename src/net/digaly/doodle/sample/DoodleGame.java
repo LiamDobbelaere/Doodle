@@ -1,6 +1,8 @@
 package net.digaly.doodle.sample;
 
-import net.digaly.doodle.*;
+import net.digaly.doodle.Entity;
+import net.digaly.doodle.Room;
+import net.digaly.doodle.events.ApplicationReadyListener;
 
 /**
  * Created by Tom Dobbelaere on 2/10/2016.
@@ -12,7 +14,7 @@ public class DoodleGame implements ApplicationReadyListener
 
     public DoodleGame() {
         Room testRoom = new LevelRoom(1024, 768);
-        this.currentRoom = testRoom;;
+        this.currentRoom = testRoom;
     }
 
     public Room getCurrentRoom()

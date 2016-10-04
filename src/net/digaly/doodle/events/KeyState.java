@@ -1,4 +1,4 @@
-package net.digaly.doodle;
+package net.digaly.doodle.events;
 
 /**
  * Created by Tom Dobbelaere on 2/10/2016.

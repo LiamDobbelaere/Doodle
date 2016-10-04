@@ -1,4 +1,4 @@
-package net.digaly.doodle;
+package net.digaly.doodle.events;
 
 import javafx.scene.input.MouseEvent;
 

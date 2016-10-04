@@ -1,5 +1,6 @@
 package net.digaly.doodle.sample;
 
+import javafx.scene.effect.Bloom;
 import net.digaly.doodle.DoodleApplication;
 
 /**
@@ -11,10 +12,11 @@ public class DoodleTest
         DoodleGame myGame = new DoodleGame();
         DoodleApplication app = DoodleApplication.getInstance();
 
-        app.addApplicationReadyListener(myGame);
+        app.getEventDispatcher().addApplicationReadyListener(myGame);
         app.setCurrentRoom(myGame.getCurrentRoom());
         app.setTitle("Doodle Sample Game");
         app.setIcon("icon.png");
+        app.setRenderEffect(new Bloom(0.2));
         //app.setFullscreen(true);
 
         app.run();

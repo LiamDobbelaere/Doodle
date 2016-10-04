@@ -86,8 +86,8 @@ public class Entity
 
     public void draw(GraphicsContext gc) {
         gc.save();
-        Rotate rotate = new Rotate(getAngle(), getPosition().x + getSprite().getImage().getWidth() / 2,
-                getPosition().y + getSprite().getImage().getHeight() / 2);
+        Rotate rotate = new Rotate(getAngle(), getPosition().x + getSprite().getOrigin().x,
+                getPosition().y + getSprite().getOrigin().y);
         gc.setTransform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(), rotate.getTy());
         gc.drawImage(getSprite().getImage(), getPosition().x, getPosition().y);
         gc.restore();

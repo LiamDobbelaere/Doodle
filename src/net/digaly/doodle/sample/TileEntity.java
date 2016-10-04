@@ -1,8 +1,11 @@
 package net.digaly.doodle.sample;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import net.digaly.doodle.*;
+import net.digaly.doodle.DoodleApplication;
+import net.digaly.doodle.Entity;
+import net.digaly.doodle.Sprite;
+import net.digaly.doodle.events.FrameDrawListener;
+import net.digaly.doodle.events.FrameUpdateListener;
 
 /**
  * Created by Tom Dobbelaere on 2/10/2016.
@@ -40,11 +43,40 @@ public class TileEntity extends Entity implements FrameDrawListener, FrameUpdate
     @Override
     public void onFrameUpdate()
     {
-        if (player == null) player = (PlayerEntity) DoodleApplication.getInstance().getCurrentRoom().findEntity(PlayerEntity.class);
+        double dist = Double.MAX_VALUE;
+
+        for (Entity e : DoodleApplication.getInstance().getCurrentRoom().findEntities(BulletEntity.class)) {
+            double distance = ((Math.max(getPosition().x, e.getPosition().x + e.getSprite().getImage().getWidth() / 2) - Math.min(getPosition().x, e.getPosition().x + e.getSprite().getImage().getWidth() / 2))
+                    + (Math.max(getPosition().y, e.getPosition().y + e.getSprite().getImage().getHeight() / 2) - Math.min(getPosition().y, e.getPosition().y + e.getSprite().getImage().getHeight() / 2)));
+
+            if (distance < dist) dist = distance;
+        }
+
+        for (Entity e : DoodleApplication.getInstance().getCurrentRoom().findEntities(PlayerEntity.class)) {
+            double distance = ((Math.max(getPosition().x, e.getPosition().x + e.getSprite().getImage().getWidth() / 2) - Math.min(getPosition().x, e.getPosition().x + e.getSprite().getImage().getWidth() / 2))
+                    + (Math.max(getPosition().y, e.getPosition().y + e.getSprite().getImage().getHeight() / 2) - Math.min(getPosition().y, e.getPosition().y + e.getSprite().getImage().getHeight() / 2)));
+
+            if (distance < dist) dist = distance;
+        }
+
+        for (Entity e : DoodleApplication.getInstance().getCurrentRoom().findEntities(EnemyEntity.class)) {
+            double distance = ((Math.max(getPosition().x, e.getPosition().x + e.getSprite().getImage().getWidth() / 2) - Math.min(getPosition().x, e.getPosition().x + e.getSprite().getImage().getWidth() / 2))
+                    + (Math.max(getPosition().y, e.getPosition().y + e.getSprite().getImage().getHeight() / 2) - Math.min(getPosition().y, e.getPosition().y + e.getSprite().getImage().getHeight() / 2)));
+
+            if (distance < dist) dist = distance;
+        }
+
+
+
+        dist = 64 / dist;
+
+        setAlpha(dist);
+
+        /*if (player == null) player = (PlayerEntity) DoodleApplication.getInstance().getCurrentRoom().findEntity(PlayerEntity.class);
 
         double dist = 64 / ((Math.max(getPosition().x, player.getPosition().x + player.getSprite().getImage().getWidth() / 2) - Math.min(getPosition().x, player.getPosition().x + player.getSprite().getImage().getWidth() / 2))
                 + (Math.max(getPosition().y, player.getPosition().y + player.getSprite().getImage().getHeight() / 2) - Math.min(getPosition().y, player.getPosition().y + player.getSprite().getImage().getHeight() / 2)));
         setAlpha(dist);
-
+        */
     }
 }

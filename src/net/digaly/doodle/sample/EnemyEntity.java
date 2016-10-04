@@ -2,8 +2,8 @@ package net.digaly.doodle.sample;
 
 import net.digaly.doodle.DoodleApplication;
 import net.digaly.doodle.Entity;
-import net.digaly.doodle.FrameUpdateListener;
 import net.digaly.doodle.Sprite;
+import net.digaly.doodle.events.FrameUpdateListener;
 
 /**
  * Created by Tom Dobbelaere on 3/10/2016.

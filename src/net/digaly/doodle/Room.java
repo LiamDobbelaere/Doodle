@@ -1,6 +1,11 @@
 package net.digaly.doodle;
 
-import java.awt.Dimension;
+import net.digaly.doodle.events.FrameDrawListener;
+import net.digaly.doodle.events.FrameUpdateListener;
+import net.digaly.doodle.events.KeyEventListener;
+import net.digaly.doodle.events.MouseEventListener;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -28,19 +33,19 @@ public class Room
         this.entities.add(entity);
 
         if (entity instanceof FrameUpdateListener) {
-            DoodleApplication.getInstance().addFrameUpdateListener((FrameUpdateListener) entity);
+            DoodleApplication.getInstance().getEventDispatcher().addFrameUpdateListener((FrameUpdateListener) entity);
         }
 
         if (entity instanceof KeyEventListener) {
-            DoodleApplication.getInstance().addKeyEventListener((KeyEventListener) entity);
+            DoodleApplication.getInstance().getEventDispatcher().addKeyEventListener((KeyEventListener) entity);
         }
 
         if (entity instanceof FrameDrawListener) {
-            DoodleApplication.getInstance().addFrameDrawListener((FrameDrawListener) entity);
+            DoodleApplication.getInstance().getEventDispatcher().addFrameDrawListener((FrameDrawListener) entity);
         }
 
         if (entity instanceof MouseEventListener) {
-            DoodleApplication.getInstance().addMouseEventListener((MouseEventListener) entity);
+            DoodleApplication.getInstance().getEventDispatcher().addMouseEventListener((MouseEventListener) entity);
         }
 
         sortEntitiesByDepth();
@@ -50,19 +55,19 @@ public class Room
         this.entities.remove(entity);
 
         if (entity instanceof FrameUpdateListener) {
-            DoodleApplication.getInstance().removeFrameUpdateListener((FrameUpdateListener) entity);
+            DoodleApplication.getInstance().getEventDispatcher().removeFrameUpdateListener((FrameUpdateListener) entity);
         }
 
         if (entity instanceof KeyEventListener) {
-            DoodleApplication.getInstance().removeKeyEventListener((KeyEventListener) entity);
+            DoodleApplication.getInstance().getEventDispatcher().removeKeyEventListener((KeyEventListener) entity);
         }
 
         if (entity instanceof FrameDrawListener) {
-            DoodleApplication.getInstance().removeFrameDrawListener((FrameDrawListener) entity);
+            DoodleApplication.getInstance().getEventDispatcher().removeFrameDrawListener((FrameDrawListener) entity);
         }
 
         if (entity instanceof MouseEventListener) {
-            DoodleApplication.getInstance().removeMouseEventListener((MouseEventListener) entity);
+            DoodleApplication.getInstance().getEventDispatcher().removeMouseEventListener((MouseEventListener) entity);
         }
 
         sortEntitiesByDepth();
@@ -78,6 +83,18 @@ public class Room
         }
 
         return null;
+    }
+
+    public List<Entity> findEntities(Class search) {
+        List<Entity> entityList = new ArrayList<>();
+
+        for (Entity entity : entities) {
+            if (entity.getClass() == search) {
+                entityList.add(entity);
+            }
+        }
+
+        return entityList;
     }
 
     protected List<Entity> getEntities() {
