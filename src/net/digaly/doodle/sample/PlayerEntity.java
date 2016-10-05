@@ -107,8 +107,8 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
         }
 
         if (keyState == KeyState.RELEASED) {
-            if (keyEvent.getCode() == KeyCode.E) {
-                //DoodleApplication.getInstance().playSound(bark);
+            if (keyEvent.getCode() == KeyCode.R) {
+                DoodleApplication.getInstance().setCurrentRoom(new LevelOtherRoom());
             }
         }
     }

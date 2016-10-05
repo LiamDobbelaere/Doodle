@@ -120,4 +120,12 @@ public class Room
     {
         this.background = background;
     }
+
+    public void destroy() {
+        for (Entity e : entities) {
+            removeEntity(e);
+        }
+
+        entities = null;
+    }
 }

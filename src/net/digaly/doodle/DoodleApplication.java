@@ -40,9 +40,13 @@ public class DoodleApplication extends Application
     private int currentFPS;
     private String title;
     private boolean fullscreen;
+
+    private boolean drawColliders;
     private String icon;
 
     private Effect renderEffect;
+    private Canvas canvas;
+    private Stage primaryStage;
 
     public static DoodleApplication getInstance() {
         if (instance == null) {
@@ -52,12 +56,16 @@ public class DoodleApplication extends Application
             instance.heldKeys = new Hashtable<>();
             instance.fullscreen = false;
             instance.renderEffect = null;
+            instance.drawColliders = false;
+            instance.canvas = null;
+            instance.primaryStage = null;
         }
 
         return instance;
     }
 
-    public void run() {
+    public void run()
+    {
         launch();
     }
 
@@ -76,6 +84,10 @@ public class DoodleApplication extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
+        instance.primaryStage = primaryStage;
+
+        setCurrentRoom(new Room(640, 480));
+
         if (instance.icon != null) primaryStage.getIcons().add(new Image(instance.icon));
         primaryStage.setFullScreen(instance.fullscreen);
         primaryStage.setTitle(instance.title);
@@ -90,17 +102,9 @@ public class DoodleApplication extends Application
         root.getChildren().add(canvas);
         primaryStage.show();
 
-        if (instance.fullscreen)
-        {
-            double scaleTarget = primaryStage.getHeight() / canvas.getHeight();
-            Scale scale = new Scale();
-            scale.setX(scaleTarget);
-            scale.setY(scaleTarget);
-            scale.setPivotX(0);
-            scale.setPivotY(0);
-            canvas.getTransforms().add(scale);
-            canvas.setLayoutX(canvas.getWidth() / scaleTarget / 2);
-        }
+        instance.canvas = canvas;
+
+        adaptToFullscreen();
 
         //canvas.widthProperty().bind(mainScene.widthProperty());
         //canvas.heightProperty().bind(mainScene.heightProperty());
@@ -145,6 +149,7 @@ public class DoodleApplication extends Application
         }
 
         if (!(getCurrentRoom() instanceof FrameDrawListener)) {
+            if (getCurrentRoom().getBackground() != null)
             gc.drawImage(getCurrentRoom().getBackground().getImage(), 0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         } else {
             ((FrameDrawListener) getCurrentRoom()).onFrameDraw(gc);
@@ -177,6 +182,19 @@ public class DoodleApplication extends Application
             }
 
             gc.restore();
+
+            if (entity.getSprite() != null && instance.drawColliders) {
+                if (entity instanceof CollisionEventListener)
+                {
+                    gc.setStroke(Color.GREEN);
+                    gc.strokeRect(entity.getPosition().x, entity.getPosition().y,
+                            entity.getSprite().getImage().getWidth(),
+                            entity.getSprite().getImage().getHeight());
+                }
+
+                //gc.setFill(Color.RED);
+                //gc.fillRect(entity.getPosition().x - 2, entity.getPosition().y - 2, 4, 4);
+            }
         }
 
         gc.setFill(Color.LIMEGREEN);
@@ -227,7 +245,20 @@ public class DoodleApplication extends Application
 
     public void setCurrentRoom(Room room)
     {
+        if (instance.currentRoom != null) instance.currentRoom.destroy();
         instance.currentRoom = room;
+
+        if (canvas != null) {
+            canvas.setWidth(instance.currentRoom.getSize().getWidth());
+            canvas.setHeight(instance.currentRoom.getSize().getHeight());
+
+            if (instance.fullscreen) {
+                adaptToFullscreen();
+            } else {
+                primaryStage.sizeToScene();
+                primaryStage.centerOnScreen();
+            }
+        }
     }
 
     public EventDispatcher getEventDispatcher()
@@ -243,5 +274,25 @@ public class DoodleApplication extends Application
     public void setRenderEffect(Effect renderEffect)
     {
         this.renderEffect = renderEffect;
+    }
+
+    public void setDrawColliders(boolean drawColliders)
+    {
+        this.drawColliders = drawColliders;
+    }
+
+    private void adaptToFullscreen() {
+        if (instance.fullscreen)
+        {
+            double scaleTarget = instance.primaryStage.getHeight() / instance.canvas.getHeight();
+            Scale scale = new Scale();
+            scale.setX(scaleTarget);
+            scale.setY(scaleTarget);
+            scale.setPivotX(0);
+            scale.setPivotY(0);
+            instance.canvas.getTransforms().clear();
+            instance.canvas.getTransforms().add(scale);
+            instance.canvas.setLayoutX(instance.canvas.getWidth() / scaleTarget / 2);
+        }
     }
 }

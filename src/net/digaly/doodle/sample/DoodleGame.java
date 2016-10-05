@@ -1,5 +1,6 @@
 package net.digaly.doodle.sample;
 
+import net.digaly.doodle.DoodleApplication;
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.Room;
 import net.digaly.doodle.events.ApplicationReadyListener;
@@ -13,8 +14,7 @@ public class DoodleGame implements ApplicationReadyListener
     private Entity testEntity;
 
     public DoodleGame() {
-        Room testRoom = new LevelRoom(1024, 768);
-        this.currentRoom = testRoom;
+
     }
 
     public Room getCurrentRoom()
@@ -25,6 +25,8 @@ public class DoodleGame implements ApplicationReadyListener
     @Override
     public void onApplicationReady()
     {
+        this.currentRoom = new LevelRoom();
+        DoodleApplication.getInstance().setCurrentRoom(currentRoom);
         //DoodleApplication.getInstance().playMusic("res\\music.mp3");
         //DoodleApplication.getInstance().setMusicVolume(0.5);
     }

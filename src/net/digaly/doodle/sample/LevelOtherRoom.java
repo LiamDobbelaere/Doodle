@@ -7,29 +7,31 @@ import net.digaly.doodle.Sprite;
 import java.util.Random;
 
 /**
- * Created by Tom Dobbelaere on 2/10/2016.
+ * Created by Tom Dobbelaere on 5/10/2016.
  */
-public class LevelRoom extends Room
+public class LevelOtherRoom extends Room
 {
-    public LevelRoom()
+    public LevelOtherRoom()
     {
-        super(1024, 768);
+        super(800, 600);
 
         Random random = new Random();
 
-        setBackground(new Sprite("space.png"));
+        setBackground(new Sprite("space2.png"));
 
         for (int i = 0; i < 17; i++) {
             for (int j = 0; j < 17; j++) {
                 this.addEntity(new TileEntity(new Sprite("tile.png"), i * 64, j * 64));
             }
         }
+
         this.addEntity(new PlayerEntity(0, 0));
 
         this.addEntity(new SpawnerEntity(0, 0));
 
         System.out.println("level loaded");
 
-        //DoodleApplication.getInstance().getSoundManager().playMusic("res\\menu.mp3");
+        //DoodleApplication.getInstance().getSoundManager().playMusic("res\\music.mp3");
     }
+
 }

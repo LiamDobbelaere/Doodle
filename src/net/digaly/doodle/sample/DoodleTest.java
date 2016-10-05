@@ -13,11 +13,11 @@ public class DoodleTest
         DoodleApplication app = DoodleApplication.getInstance();
 
         app.getEventDispatcher().addApplicationReadyListener(myGame);
-        app.setCurrentRoom(myGame.getCurrentRoom());
         app.setTitle("Doodle Sample Game");
         app.setIcon("icon.png");
-        app.setRenderEffect(new Bloom(0.2));
-        //app.setFullscreen(true);
+        //app.setRenderEffect(new Bloom(0.2));
+        app.setDrawColliders(true);
+        app.setFullscreen(true);
 
         app.run();
     }
