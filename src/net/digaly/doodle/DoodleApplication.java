@@ -2,6 +2,7 @@ package net.digaly.doodle;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -115,6 +116,8 @@ public class DoodleApplication extends Application
         mainScene.setOnMouseClicked(event -> instance.broadcastMouseEvent(event));
         mainScene.setOnMousePressed(event -> instance.broadcastMouseEvent(event));
         mainScene.setOnMouseReleased(event -> instance.broadcastMouseEvent(event));
+        mainScene.setOnMouseMoved(event -> instance.broadcastMouseEvent(event));
+        mainScene.setOnMouseDragged(event -> instance.broadcastMouseEvent(event));
 
         mainScene.setOnKeyPressed(event -> {
             instance.heldKeys.put(event.getCode(), event);

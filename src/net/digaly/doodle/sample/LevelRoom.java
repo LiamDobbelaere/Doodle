@@ -24,9 +24,13 @@ public class LevelRoom extends Room
                 this.addEntity(new TileEntity(new Sprite("tile.png"), i * 64, j * 64));
             }
         }
-        this.addEntity(new PlayerEntity(0, 0));
+        this.addEntity(new PlayerEntity(250, 250));
+
+        this.addEntity(new DefensePostEntity(250, 250));
+
 
         this.addEntity(new SpawnerEntity(0, 0));
+
 
         System.out.println("level loaded");
 

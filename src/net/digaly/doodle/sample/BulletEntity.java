@@ -42,5 +42,11 @@ public class BulletEntity extends Entity implements FrameUpdateListener, Collisi
             ((EnemyEntity) other).damage(1);
             destroy();
         }
+
+        /*if (other instanceof DefensePostEntity) {
+            DoodleApplication.getInstance().getSoundManager().playSound("res\\hit.wav", 0.2);
+            ((DefensePostEntity) other).damage(1);
+            destroy();
+        }*/
     }
 }

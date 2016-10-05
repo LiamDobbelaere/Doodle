@@ -15,9 +15,9 @@ public class DoodleTest
         app.getEventDispatcher().addApplicationReadyListener(myGame);
         app.setTitle("Doodle Sample Game");
         app.setIcon("icon.png");
-        //app.setRenderEffect(new Bloom(0.2));
+        app.setRenderEffect(new Bloom(0.2));
         app.setDrawColliders(true);
-        app.setFullscreen(true);
+        //app.setFullscreen(true);
 
         app.run();
     }

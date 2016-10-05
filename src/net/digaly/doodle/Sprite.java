@@ -8,21 +8,25 @@ import javafx.scene.image.Image;
 public class Sprite
 {
     private Image image;
-    private String filename;
-    private boolean centerOrigin;
+    private Point offset;
 
     public Sprite(String filename) {
-        this.filename = filename;
-        this.centerOrigin = true;
         this.image = new Image(filename);
+        this.offset = new Point(image.getWidth() / 2, image.getHeight() / 2);
+    }
+
+    public Sprite(String filename, double xOffset, double yOffset) {
+        this(filename);
+        this.offset = new Point(xOffset, yOffset);
     }
 
     public Image getImage()
     {
-        /*if (image == null) {
-            image = new Image(filename);
-        }*/
-
         return image;
+    }
+
+    public Point getOffset()
+    {
+        return offset;
     }
 }

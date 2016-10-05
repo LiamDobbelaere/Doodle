@@ -1,6 +1,7 @@
 package net.digaly.doodle;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Effect;
 import javafx.scene.transform.Rotate;
 
 /**
@@ -13,7 +14,6 @@ public class Entity
     private Point position;
     private boolean visible;
     private double alpha;
-
     private int depth;
 
     public Entity(Sprite sprite, double x, double y) {
@@ -88,8 +88,8 @@ public class Entity
         if (getSprite() == null) return;
 
         gc.save();
-        Rotate rotate = new Rotate(getAngle(), getPosition().x + getSprite().getImage().getWidth() / 2,
-                getPosition().y + getSprite().getImage().getHeight() / 2);
+        Rotate rotate = new Rotate(getAngle(), getPosition().x + getSprite().getOffset().x,
+                getPosition().y + getSprite().getOffset().y);
         gc.setTransform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(), rotate.getTy());
         gc.drawImage(getSprite().getImage(), getPosition().x, getPosition().y);
         gc.restore();
