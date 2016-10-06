@@ -22,8 +22,8 @@ public class DefensePostEntity extends Entity implements FrameUpdateListener, Co
     private double health;
     private double maxHealth;
     private Point originalPosition;
-
     private Sprite[] sprites;
+    private boolean destroyOnNext;
 
     public DefensePostEntity(double x, double y)
     {
@@ -37,6 +37,8 @@ public class DefensePostEntity extends Entity implements FrameUpdateListener, Co
         sprites = new Sprite[2];
         sprites[0] = new Sprite("v2\\defend_spinner_damaged.png");
         sprites[1] = new Sprite("v2\\defend_spinner_critical.png");
+
+        destroyOnNext = false;
     }
 
     @Override
@@ -50,10 +52,6 @@ public class DefensePostEntity extends Entity implements FrameUpdateListener, Co
         getPosition().x = originalPosition.x + Math.cos(framesPassed) * (1.5 / (health / maxHealth));
         getPosition().y = originalPosition.y + Math.sin(framesPassed) * (1.5 / (health / maxHealth));
 
-        if (framesPassed > 30) {
-            framesPassed = 0;
-            damage(5);
-        }
 
         if (health / maxHealth < 0.3) {
             setSprite(sprites[1]);
@@ -65,12 +63,19 @@ public class DefensePostEntity extends Entity implements FrameUpdateListener, Co
     @Override
     public void onCollision(Entity other)
     {
-
+        if (other instanceof EnemyEntity) {
+            other.destroy();
+            DoodleApplication.getInstance().getSoundManager().playSound("res\\damage.wav");
+            damage(10);
+        }
     }
 
     public void damage(int amount) {
         health -= amount;
 
-        if (health < 0) destroy();
+        if (health <= 0) {
+            DoodleApplication.getInstance().getSoundManager().playSound("res\\post_explode.wav");
+            destroy();
+        }
     }
 }

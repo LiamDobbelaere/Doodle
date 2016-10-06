@@ -7,5 +7,5 @@ import javafx.scene.input.MouseEvent;
  */
 public interface MouseEventListener
 {
-    void onMouseEvent(MouseEvent event, boolean isLocal);
+    void onMouseEvent(MouseEvent event, MouseState state, boolean isLocal);
 }

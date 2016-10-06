@@ -93,9 +93,9 @@ public class EventDispatcher
         mouseEventListeners.remove(listener);
     }
 
-    public void notifyMouseEventListeners(MouseEvent event, boolean isLocal) {
+    public void notifyMouseEventListeners(MouseEvent event, MouseState state, boolean isLocal) {
         for (MouseEventListener listener : mouseEventListeners) {
-            listener.onMouseEvent(event, isLocal);
+            listener.onMouseEvent(event, state, isLocal);
         }
     }
 
@@ -112,4 +112,6 @@ public class EventDispatcher
             listener.onCollision(other);
         }
     }
+
+
 }

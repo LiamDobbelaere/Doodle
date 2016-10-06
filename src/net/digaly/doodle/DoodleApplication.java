@@ -12,6 +12,7 @@ import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -32,6 +33,7 @@ public class DoodleApplication extends Application
 
     private Room currentRoom;
     private Hashtable<KeyCode, KeyEvent> heldKeys;
+    private Hashtable<MouseButton, MouseEvent> heldMouse;
 
     private EventDispatcher eventDispatcher;
     private SoundManager soundManager;
@@ -55,6 +57,7 @@ public class DoodleApplication extends Application
             instance.soundManager = new SoundManager();
             instance.eventDispatcher = new EventDispatcher();
             instance.heldKeys = new Hashtable<>();
+            instance.heldMouse = new Hashtable<>();
             instance.fullscreen = false;
             instance.renderEffect = null;
             instance.drawColliders = false;
@@ -113,11 +116,18 @@ public class DoodleApplication extends Application
         GraphicsContext gc = canvas.getGraphicsContext2D();
         final long startNanoTime = System.nanoTime();
 
-        mainScene.setOnMouseClicked(event -> instance.broadcastMouseEvent(event));
-        mainScene.setOnMousePressed(event -> instance.broadcastMouseEvent(event));
-        mainScene.setOnMouseReleased(event -> instance.broadcastMouseEvent(event));
-        mainScene.setOnMouseMoved(event -> instance.broadcastMouseEvent(event));
-        mainScene.setOnMouseDragged(event -> instance.broadcastMouseEvent(event));
+        mainScene.setOnMouseClicked(event -> instance.broadcastMouseEvent(event, MouseState.CLICKED));
+        mainScene.setOnMousePressed(event -> {
+            instance.heldMouse.put(event.getButton(), event);
+            instance.broadcastMouseEvent(event, MouseState.PRESSED);
+        });
+        mainScene.setOnMouseReleased(event -> {
+            instance.heldMouse.remove(event.getButton());
+            instance.broadcastMouseEvent(event, MouseState.RELEASED);
+        });
+        mainScene.setOnMouseMoved(event -> instance.broadcastMouseEvent(event, MouseState.MOVED));
+        mainScene.setOnMouseDragged(event -> instance.broadcastMouseEvent(event, MouseState.DRAGGED));
+
 
         mainScene.setOnKeyPressed(event -> {
             instance.heldKeys.put(event.getCode(), event);
@@ -151,6 +161,10 @@ public class DoodleApplication extends Application
             instance.eventDispatcher.notifyKeyEventListeners(instance.heldKeys.get(key), KeyState.HOLDING);
         }
 
+        for (MouseButton button : instance.heldMouse.keySet()) {
+            instance.broadcastMouseEvent(instance.heldMouse.get(button), MouseState.HOLDING);
+        }
+
         if (!(getCurrentRoom() instanceof FrameDrawListener)) {
             if (getCurrentRoom().getBackground() != null)
             gc.drawImage(getCurrentRoom().getBackground().getImage(), 0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
@@ -165,8 +179,8 @@ public class DoodleApplication extends Application
             for (Entity other : instance.getCurrentRoom().getEntities()) {
                 if (other.getSprite() == null) continue;
 
-                if (DoodleUtil.rectangleOverlaps(entity.getPosition().x, entity.getPosition().y, entity.getSprite().getImage().getWidth(), entity.getSprite().getImage().getHeight(),
-                        other.getPosition().x, other.getPosition().y, other.getSprite().getImage().getWidth(), other.getSprite().getImage().getHeight())) {
+                if (DoodleUtil.rectangleOverlaps(entity.getPosition().x - entity.getSprite().getOffset().x, entity.getPosition().y - entity.getSprite().getOffset().y, entity.getSprite().getImage().getWidth(), entity.getSprite().getImage().getHeight(),
+                        other.getPosition().x - other.getSprite().getOffset().x, other.getPosition().y - other.getSprite().getOffset().y, other.getSprite().getImage().getWidth(), other.getSprite().getImage().getHeight())) {
                     ((CollisionEventListener) entity).onCollision(other);
                 }
             }
@@ -190,9 +204,10 @@ public class DoodleApplication extends Application
                 if (entity instanceof CollisionEventListener)
                 {
                     gc.setStroke(Color.GREEN);
-                    gc.strokeRect(entity.getPosition().x, entity.getPosition().y,
-                            entity.getSprite().getImage().getWidth(),
-                            entity.getSprite().getImage().getHeight());
+                    gc.strokeRect(entity.getPosition().x - entity.getSprite().getOffset().x,
+                                  entity.getPosition().y - entity.getSprite().getOffset().y,
+                                  entity.getSprite().getImage().getWidth(),
+                                  entity.getSprite().getImage().getHeight());
                 }
 
                 //gc.setFill(Color.RED);
@@ -208,9 +223,9 @@ public class DoodleApplication extends Application
         gc.setFont(new Font(24));
         gc.fillText("Entities: " + getCurrentRoom().getEntities().size(), 0, gc.getCanvas().getHeight() - 24);
 
-        /*gc.setFill(Color.YELLOW);
+        gc.setFill(Color.YELLOW);
         gc.setFont(new Font(24));
-        gc.fillText("Sound pool: " + instance.getSoundManager() .size(), 0, gc.getCanvas().getHeight() - 48);*/
+        gc.fillText("Sound pool: " + instance.getSoundManager().getSoundpoolSize(), 0, gc.getCanvas().getHeight() - 48);
 
         /*gc.setFill(Color.VIOLET);
         gc.setFont(new Font(24));
@@ -227,8 +242,8 @@ public class DoodleApplication extends Application
         if (instance.renderEffect != null) gc.applyEffect(instance.renderEffect);
     }
 
-    private void broadcastMouseEvent(MouseEvent event) {
-        instance.eventDispatcher.notifyMouseEventListeners(event, false);
+    private void broadcastMouseEvent(MouseEvent event, MouseState state) {
+        instance.eventDispatcher.notifyMouseEventListeners(event, state, false);
 
         for (Entity entity : instance.getCurrentRoom().getEntities()) {
             if (!(entity instanceof MouseEventListener)) continue;
@@ -236,7 +251,7 @@ public class DoodleApplication extends Application
             if (event.getSceneX() >= entity.getPosition().x && event.getSceneX() <= entity.getPosition().x + entity.getSprite().getImage().getWidth()
                     && event.getSceneY() >= entity.getPosition().y  && event.getSceneY() <= entity.getPosition().y + entity.getSprite().getImage().getHeight())
             {
-                ((MouseEventListener) entity).onMouseEvent(event, true);
+                ((MouseEventListener) entity).onMouseEvent(event, state, true);
             }
         }
     }
@@ -297,5 +312,9 @@ public class DoodleApplication extends Application
             instance.canvas.getTransforms().add(scale);
             instance.canvas.setLayoutX(instance.canvas.getWidth() / scaleTarget / 2);
         }
+    }
+
+    public void setMaxSoundSpawn(int value) {
+        instance.soundManager.setMaxSoundSpawn(value);
     }
 }

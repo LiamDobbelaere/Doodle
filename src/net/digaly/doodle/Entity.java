@@ -88,10 +88,10 @@ public class Entity
         if (getSprite() == null) return;
 
         gc.save();
-        Rotate rotate = new Rotate(getAngle(), getPosition().x + getSprite().getOffset().x,
-                getPosition().y + getSprite().getOffset().y);
+        Rotate rotate = new Rotate(getAngle(), getPosition().x,
+                getPosition().y);
         gc.setTransform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(), rotate.getTy());
-        gc.drawImage(getSprite().getImage(), getPosition().x, getPosition().y);
+        gc.drawImage(getSprite().getImage(), getPosition().x - getSprite().getOffset().x, getPosition().y - getSprite().getOffset().y);
         gc.restore();
     }
 

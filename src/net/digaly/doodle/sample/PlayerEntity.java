@@ -2,14 +2,12 @@ package net.digaly.doodle.sample;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import net.digaly.doodle.DoodleApplication;
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.Sprite;
-import net.digaly.doodle.events.FrameUpdateListener;
-import net.digaly.doodle.events.KeyEventListener;
-import net.digaly.doodle.events.KeyState;
-import net.digaly.doodle.events.MouseEventListener;
+import net.digaly.doodle.events.*;
 
 import java.util.Random;
 
@@ -30,7 +28,9 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
 
     private Random random;
 
-    private int shootDelay ;
+    private int shootDelay;
+    private int bulletPower;
+    private double bulletSpread;
 
     public PlayerEntity(double x, double y)
     {
@@ -46,6 +46,8 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
 
         shootDelay = 0;
         speed = 0;
+        bulletPower = 2;
+        bulletSpread = 10;
     }
 
     @Override
@@ -107,20 +109,20 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
 
     private void shoot() {
         if (shootDelay == 0) {
-            int angleSwing = -5 + random.nextInt(10);
+            int angleSwing;
 
-            DoodleApplication.getInstance().getCurrentRoom().addEntity(new BulletEntity(spriteBullet, getPosition().x + 20, getPosition().y + 32, getAngle()+ angleSwing, 10));
+            for (int i = 0; i < bulletPower; i++) {
+                angleSwing = (int) -(bulletSpread/2) + random.nextInt((int) bulletSpread);
+                DoodleApplication.getInstance().getCurrentRoom().addEntity(new BulletEntity(spriteBullet, getPosition().x, getPosition().y, getAngle()+ angleSwing, 10));
+            }
 
-            angleSwing = -5 + random.nextInt(10);
-
-            DoodleApplication.getInstance().getCurrentRoom().addEntity(new BulletEntity(spriteBullet, getPosition().x + 20, getPosition().y + 32, getAngle()+ angleSwing, 10));
             shootDelay = 5;
             DoodleApplication.getInstance().getSoundManager().playSound("res\\shoot.wav");
         }
     }
 
     @Override
-    public void onMouseEvent(MouseEvent event, boolean isLocal)
+    public void onMouseEvent(MouseEvent event, MouseState state, boolean isLocal)
     {
         if (event.getEventType() == MouseEvent.MOUSE_MOVED || event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
             double deltaX = getPosition().x + getSprite().getOffset().x - event.getSceneX();
@@ -130,12 +132,8 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
             setAngle((int) angle + 180);
         }
 
-        if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+        if (event.getButton() == MouseButton.PRIMARY && state == MouseState.HOLDING) {
             shoot();
-        }
-
-        if (isLocal && event.getEventType() == MouseEvent.MOUSE_PRESSED) {
-            setVisible(!isVisible());
         }
     }
 }
