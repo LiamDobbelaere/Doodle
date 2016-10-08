@@ -9,16 +9,18 @@ It provides you with classes like Entity, Room, KeyEventListener,.. to put your 
 
 #How do I use Doodle in my project?
 Here's an example of how your program might look.
+**Note: A better documentation is on the way**
 
 **Your main class**
 ```java
 public static void main(String[] args) {
-    DoodleGame myGame = new DoodleGame();
-    DoodleApplication app = DoodleApplication.getInstance();
+        DoodleGame myGame = new DoodleGame();
+        DoodleApplication app = DoodleApplication.getInstance();
 
-    app.setCurrentRoom(myGame.getCurrentRoom());
-
-    app.run();
+        app.getEventDispatcher().addApplicationReadyListener(myGame);
+        app.setTitle("Doodle Sample Game");
+        app.setIcon("icon.png");
+        app.run();
 }
 ```
 DoodleGame is a class *you* make, that may contain a room and that room may contain entities.
@@ -28,29 +30,45 @@ This is why we move our game logic to a separate class called ```DoodleGame```.
 
 **DoodleGame class**
 ```java
-public class DoodleGame
+public class DoodleGame implements ApplicationReadyListener
 {
     private Room currentRoom;
     private Entity testEntity;
 
     public DoodleGame() {
-        Room testRoom = new Room(800, 600);
-        this.currentRoom = testRoom;
-
-        testEntity = new PlayerEntity(0, 0);
-
-        testRoom.addEntity(testEntity);
 
     }
-    
+
     public Room getCurrentRoom()
     {
         return currentRoom;
     }
+
+    @Override
+    public void onApplicationReady()
+    {
+        this.currentRoom = new LevelRoom();
+        DoodleApplication.getInstance().setCurrentRoom(currentRoom);
+        //DoodleApplication.getInstance().playMusic("res\\music.mp3");
+        //DoodleApplication.getInstance().setMusicVolume(0.5);
+    }
 }
 ```
 
-At this point, our game will show a blank window that's 800 by 600 wide.  
+**LevelRoom class**
+```java
+public class LevelRoom extends Room
+{
+    public LevelRoom()
+    {
+        super(1024, 768);
+
+        this.addEntity(new PlayerEntity(250, 250));
+    }
+}
+```
+
+At this point, our game will show a blank window that's 1024 by 768 wide.  
 Let's create the PlayerEntity class to add some life to our game!
 
 ```java
