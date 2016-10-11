@@ -31,23 +31,23 @@ public class Room
         this.entities.add(entity);
 
         if (entity instanceof FrameUpdateListener) {
-            DoodleApplication.getInstance().getEventDispatcher().addFrameUpdateListener((FrameUpdateListener) entity);
+            //DoodleApplication.getInstance().getEventDispatcher().addFrameUpdateListener((FrameUpdateListener) entity);
         }
 
         if (entity instanceof KeyEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().addKeyEventListener((KeyEventListener) entity);
+            //DoodleApplication.getInstance().getEventDispatcher().addKeyEventListener((KeyEventListener) entity);
         }
 
         if (entity instanceof FrameDrawListener) {
-            DoodleApplication.getInstance().getEventDispatcher().addFrameDrawListener((FrameDrawListener) entity);
+            //DoodleApplication.getInstance().getEventDispatcher().addFrameDrawListener((FrameDrawListener) entity);
         }
 
         if (entity instanceof MouseEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().addMouseEventListener((MouseEventListener) entity);
+            //DoodleApplication.getInstance().getEventDispatcher().addMouseEventListener((MouseEventListener) entity);
         }
 
         if (entity instanceof CollisionEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().addCollisionEventListener((CollisionEventListener) entity);
+            //DoodleApplication.getInstance().getEventDispatcher().addCollisionEventListener((CollisionEventListener) entity);
         }
 
         sortEntitiesByDepth();
@@ -57,23 +57,23 @@ public class Room
         this.entities.remove(entity);
 
         if (entity instanceof FrameUpdateListener) {
-            DoodleApplication.getInstance().getEventDispatcher().removeFrameUpdateListener((FrameUpdateListener) entity);
+            //DoodleApplication.getInstance().getEventDispatcher().removeFrameUpdateListener((FrameUpdateListener) entity);
         }
 
         if (entity instanceof KeyEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().removeKeyEventListener((KeyEventListener) entity);
+            //DoodleApplication.getInstance().getEventDispatcher().removeKeyEventListener((KeyEventListener) entity);
         }
 
         if (entity instanceof FrameDrawListener) {
-            DoodleApplication.getInstance().getEventDispatcher().removeFrameDrawListener((FrameDrawListener) entity);
+            //DoodleApplication.getInstance().getEventDispatcher().removeFrameDrawListener((FrameDrawListener) entity);
         }
 
         if (entity instanceof MouseEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().removeMouseEventListener((MouseEventListener) entity);
+            //DoodleApplication.getInstance().getEventDispatcher().removeMouseEventListener((MouseEventListener) entity);
         }
 
         if (entity instanceof CollisionEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().removeCollisionEventListener((CollisionEventListener) entity);
+            //DoodleApplication.getInstance().getEventDispatcher().removeCollisionEventListener((CollisionEventListener) entity);
         }
 
         sortEntitiesByDepth();

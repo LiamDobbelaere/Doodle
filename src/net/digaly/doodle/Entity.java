@@ -96,7 +96,7 @@ public class Entity
     }
 
     public void destroy() {
-        DoodleApplication.getInstance().getCurrentRoom().removeEntity(this);
+        //DoodleApplication.getInstance().getCurrentRoom().removeEntity(this);
     }
 
     public int getDepth()
