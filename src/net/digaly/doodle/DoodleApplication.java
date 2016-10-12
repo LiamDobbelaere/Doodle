@@ -1,30 +1,14 @@
 package net.digaly.doodle;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.*;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import net.digaly.doodle.audio.SoundManager;
-import net.digaly.doodle.events.*;
+import net.digaly.doodle.events.EventDispatcher;
 import net.digaly.doodle.input.InputManager;
 import net.digaly.doodle.rendering.Renderer;
-import net.digaly.doodle.util.DoodleUtil;
-
-import java.awt.*;
-import java.util.Hashtable;
 
 /**
  * Created by Tom Dobbelaere on 1/10/2016.
@@ -34,9 +18,11 @@ public abstract class DoodleApplication extends Application
     protected static ApplicationSettings settings = new ApplicationSettings();
     private Room currentRoom;
     private Renderer renderer;
+    private Stage stage;
     private EventDispatcher eventDispatcher;
     private InputManager inputManager;
     private FrameUpdater frameUpdater;
+    private SoundManager soundManager;
 
     //Initialize inputmanager and stuff in start!!!
     @Override
@@ -45,23 +31,25 @@ public abstract class DoodleApplication extends Application
         this.renderer = settings.getRenderer();
         this.eventDispatcher = new EventDispatcher();
         this.frameUpdater = new FrameUpdater();
+        this.soundManager = new SoundManager();
+        this.stage = primaryStage;
 
         setCurrentRoom(new Room(800, 600));
 
-        primaryStage.setTitle(settings.getTitle());
-        primaryStage.setFullScreen(settings.isFullscreen());
+        stage.setTitle(settings.getTitle());
+        stage.setFullScreen(settings.isFullscreen());
         if (!settings.getIconPath().equals("")) {
-            primaryStage.getIcons().add(new Image(settings.getIconPath()));
+            stage.getIcons().add(new Image(settings.getIconPath()));
         }
 
         Group root = new Group();
-        Scene mainScene = new Scene(root, currentRoom.getSize().getWidth(), currentRoom.getSize().getHeight(), false, SceneAntialiasing.BALANCED);
+        Scene mainScene = new Scene(root, currentRoom.getSize().getWidth(), currentRoom.getSize().getHeight(), settings.getDepthBuffer(), SceneAntialiasing.BALANCED);
         mainScene.setFill(Color.BLACK);
 
         Camera camera = new PerspectiveCamera();
         mainScene.setCamera(camera);
 
-        primaryStage.setScene(mainScene);
+        stage.setScene(mainScene);
 
         renderer.setCamera(mainScene.getCamera());
         renderer.setRoot(root);
@@ -78,7 +66,7 @@ public abstract class DoodleApplication extends Application
         //Canvas canvas = new Canvas(instance.currentRoom.getSize().getWidth(), instance.currentRoom.getSize().getHeight());
         //root.getChildren().add(canvas);*/
 
-        primaryStage.show();
+        stage.show();
 
         onApplicationReady();
     }
@@ -86,7 +74,13 @@ public abstract class DoodleApplication extends Application
     public void setCurrentRoom(Room room) {
         this.currentRoom = room;
         this.currentRoom.setEventDispatcher(this.eventDispatcher);
+        this.currentRoom.setRenderer(this.renderer);
+        this.currentRoom.setSoundManager(this.soundManager);
+
         renderer.setEntities(this.currentRoom.getEntities());
+
+        stage.setWidth(this.currentRoom.getSize().getWidth());
+        stage.setHeight(this.currentRoom.getSize().getHeight());
     }
 
     public abstract void onApplicationReady();

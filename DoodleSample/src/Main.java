@@ -1,3 +1,4 @@
+import javafx.scene.effect.Bloom;
 import net.digaly.doodle.*;
 import net.digaly.doodle.rendering.NoRenderer;
 import net.digaly.doodle.rendering.NodeBasedRenderer;
@@ -9,7 +10,9 @@ public class Main extends DoodleApplication
 {
     public static void main(String[] args) {
         settings.setTitle("Doodle Sample");
-        settings.setRenderer(new NodeBasedRenderer());
+        NodeBasedRenderer renderer = new NodeBasedRenderer();
+        renderer.setEffect(new Bloom(0.2));
+        settings.setRenderer(renderer);
 
         /*settings.setDebugMode(false);
         settings.setFullscreen(true);*/
@@ -20,10 +23,17 @@ public class Main extends DoodleApplication
     @Override
     public void onApplicationReady()
     {
-        Room myRoom = new Room(640, 480);
+        Room myRoom = new Room(1024, 768);
         setCurrentRoom(myRoom);
+
+        Entity background = new BackgroundEntity(new Sprite());
+        background.setSprite(new Sprite("space.png"));
+        myRoom.addEntity(background);
 
         Entity test = new PlayerEntity(64, 64);
         myRoom.addEntity(test);
+
+        Entity waveIntro = new WaveIntro("STAGE 1", "Do nothing you scrub");
+        myRoom.addEntity(waveIntro);
     }
 }

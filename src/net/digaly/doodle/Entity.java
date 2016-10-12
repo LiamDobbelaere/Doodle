@@ -1,8 +1,6 @@
 package net.digaly.doodle;
 
-import com.sun.corba.se.impl.orb.NormalDataCollector;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Effect;
 import javafx.scene.transform.Rotate;
 
 /**
@@ -16,10 +14,12 @@ public class Entity
     private boolean visible;
     private double alpha;
     private int depth;
+    private double width;
+    private double height;
     private Room room;
 
     public Entity(Sprite sprite, double x, double y) {
-        this.sprite = sprite;
+        setSprite(sprite);
         this.angle = 0;
         this.position = new Point(x, y);
         this.visible = true;
@@ -35,6 +35,11 @@ public class Entity
     public void setSprite(Sprite sprite)
     {
         this.sprite = sprite;
+
+        if (sprite.getImage() != null) {
+            setWidth(sprite.getImage().getWidth());
+            setHeight(sprite.getImage().getHeight());
+        }
     }
 
     public int getAngle()
@@ -120,5 +125,25 @@ public class Entity
     public void setRoom(Room room)
     {
         this.room = room;
+    }
+
+    public double getWidth()
+    {
+        return width;
+    }
+
+    public void setWidth(double width)
+    {
+        this.width = width;
+    }
+
+    public double getHeight()
+    {
+        return height;
+    }
+
+    public void setHeight(double height)
+    {
+        this.height = height;
     }
 }

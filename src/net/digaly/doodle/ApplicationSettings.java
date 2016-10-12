@@ -1,7 +1,6 @@
 package net.digaly.doodle;
 
 import net.digaly.doodle.rendering.NoRenderer;
-import net.digaly.doodle.rendering.NodeBasedRenderer;
 import net.digaly.doodle.rendering.Renderer;
 
 /**
@@ -14,11 +13,13 @@ public class ApplicationSettings
     private String iconPath;
     private boolean debugMode;
     private Renderer renderer;
+    private boolean depthBuffer;
 
     public ApplicationSettings() {
         this.title = "";
         this.iconPath = "";
         this.renderer = new NoRenderer();
+        this.depthBuffer = false;
     }
 
     public boolean isFullscreen()
@@ -67,5 +68,13 @@ public class ApplicationSettings
 
     public Renderer getRenderer() {
         return this.renderer;
+    }
+
+    public void setDepthBuffer(boolean value) {
+        this.depthBuffer = value;
+    }
+
+    public boolean getDepthBuffer() {
+        return this.depthBuffer;
     }
 }

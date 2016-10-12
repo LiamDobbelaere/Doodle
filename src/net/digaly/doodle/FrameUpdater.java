@@ -1,7 +1,6 @@
 package net.digaly.doodle;
 
 import javafx.animation.AnimationTimer;
-import jdk.internal.util.xml.impl.Input;
 import net.digaly.doodle.events.EventDispatcher;
 import net.digaly.doodle.events.NoEventDispatcher;
 import net.digaly.doodle.input.InputManager;

@@ -1,7 +1,11 @@
+import javafx.scene.Camera;
+import javafx.scene.Group;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import net.digaly.doodle.DoodleApplication;
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.Sprite;
@@ -14,7 +18,7 @@ import static javafx.scene.input.KeyCode.Z;
 /**
  * Created by Tom Dobbelaere on 2/10/2016.
  */
-public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEventListener, MouseEventListener
+public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEventListener, MouseEventListener//, FrameDrawListener
 {
     private double speed;
     private int turnSpeed = 5;
@@ -34,7 +38,7 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
     {
         super(new Sprite("ship_n.png"), x, y);
 
-        setDepth(-100);
+        setDepth(10);
 
         spriteNone = new Sprite("ship_n.png");
         spriteForwards = new Sprite("ship_f.png");
@@ -51,20 +55,33 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
     @Override
     public void onFrameUpdate()
     {
+        Camera camera = getRoom().getRenderer().getCamera();
+        Group root = getRoom().getRenderer().getRoot();
+        camera.setTranslateX(getPosition().x - getSprite().getOffset().x - root.getScene().getWidth() / 2);
+        camera.setTranslateY(getPosition().y - getSprite().getOffset().y - root.getScene().getHeight() / 2);
+
+
         getPosition().translate(Math.cos(getAngle() * 0.017) * speed, Math.sin(getAngle() * 0.017) * speed);
 
-        if (Math.abs(speed) > 5)
+        //Speed limiting
+        if (speed > 6)
         {
-            if (speed > 0) speed = 5;
-            if (speed < 0) speed = -5;
+            speed = 6;
         }
 
+        if (speed < -5) {
+            speed = -5;
+        }
+
+        //Slowing down
         if (speed > 0) speed -= 0.1;
         if (speed < 0) speed += 0.1;
 
+        if (Math.abs(speed) < 0.1) speed = 0;
+
         turnSpeed = 5 - (int) speed / 2;
 
-        //DoodleApplication.getInstance().getCurrentRoom().addEntity(new TrailEntity(getSprite(), getPosition().x, getPosition().y, getAngle(), 0.2, 0.01));
+        getRoom().addEntity(new TrailEntity(getSprite(), getPosition().x, getPosition().y, getAngle(), 0.2, 0.01));
 
         setSprite(spriteNone);
 
@@ -113,7 +130,7 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
             }
 
             shootDelay = 5;
-            //DoodleApplication.getInstance().getSoundManager().playSound("res\\shoot.wav");
+            getRoom().getSoundManager().playSound("DoodleSample\\res\\shoot.wav");
         }
     }
 
@@ -121,8 +138,8 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
     public void onMouseEvent(MouseEvent event, MouseState state, boolean isLocal)
     {
         if (event.getEventType() == MouseEvent.MOUSE_MOVED || event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-            double deltaX = getPosition().x + getSprite().getOffset().x - event.getX();
-            double deltaY = getPosition().y + getSprite().getOffset().y - event.getY();
+            double deltaX = getPosition().x - event.getX();
+            double deltaY = getPosition().y - event.getY();
             double angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
 
             setAngle((int) angle + 180);
@@ -132,4 +149,11 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
             shoot();
         }
     }
+/*
+    @Override
+    public void onFrameDraw(GraphicsContext gc)
+    {
+        gc.setFill(Color.RED);
+        gc.fillOval(0, 0, 200, 200);
+    }*/
 }

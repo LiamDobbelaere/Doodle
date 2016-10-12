@@ -18,6 +18,7 @@ public class BulletEntity extends Entity implements FrameUpdateListener, Collisi
         setAngle(angle);
         this.speed = speed;
         this.frames = 0;
+        setDepth(5);
     }
 
     @Override

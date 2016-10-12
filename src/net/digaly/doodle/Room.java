@@ -1,6 +1,10 @@
 package net.digaly.doodle;
 
+import net.digaly.doodle.audio.NoSoundManager;
+import net.digaly.doodle.audio.SoundManager;
 import net.digaly.doodle.events.*;
+import net.digaly.doodle.rendering.NoRenderer;
+import net.digaly.doodle.rendering.Renderer;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,12 +20,16 @@ public class Room
     private List<Entity> entities;
     private Dimension size;
     private EventDispatcher eventDispatcher;
+    private Renderer renderer;
+    private SoundManager soundManager;
     private Sprite background;
 
     public Room(int width, int height) {
         this.entities = new CopyOnWriteArrayList<>();
         this.size = new Dimension(width, height);
         this.eventDispatcher = new NoEventDispatcher();
+        this.renderer = new NoRenderer();
+        this.soundManager = new NoSoundManager();
     }
 
     public void sortEntitiesByDepth() {
@@ -135,5 +143,25 @@ public class Room
     public void setEventDispatcher(EventDispatcher eventDispatcher)
     {
         this.eventDispatcher = eventDispatcher;
+    }
+
+    public Renderer getRenderer()
+    {
+        return renderer;
+    }
+
+    public void setRenderer(Renderer renderer)
+    {
+        this.renderer = renderer;
+    }
+
+    public SoundManager getSoundManager()
+    {
+        return soundManager;
+    }
+
+    public void setSoundManager(SoundManager soundManager)
+    {
+        this.soundManager = soundManager;
     }
 }
