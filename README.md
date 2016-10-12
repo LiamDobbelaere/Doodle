@@ -5,7 +5,28 @@ Doodle is a framework meant for creating games in Java. It wraps JavaFX for rend
 
 It provides you with classes like Entity, Room, KeyEventListener,.. to put your game together in an easier way.  
 
+The structure of Doodle is based off of Game Maker (Rooms, Sprites,..).
+
 **Note that this project is still heavily in development**
+
+**This readme will need new examples, as the core has been completely rewritten in the upcoming revision and as a result will change the API**
+
+#Reasons to use and not use Doodle
+
+Doodle was created for rapid prototyping of games in Java. It is **not** a thoroughly production-tested framework.
+
+**Use Doodle if you want:**
+* Rapid prototyping
+* An easy to understand framework
+* A starting point to write your own game engine in JavaFX
+* To spend more time developing your game and less time handling low-level stuff
+* A native Java solution for writing a game engine
+
+**DON'T use Doodle if you need:**
+* An optimized game engine that can perform at high stress (1000+ moving sprites)
+* More advanced 3D operations
+* Control at the low-level of things
+* A professional framework (seriously, use something like LibGDX instead)
 
 #How do I use Doodle in my project?
 Here's an example of how your program might look.
