@@ -1,5 +1,9 @@
 package net.digaly.doodle;
 
+import net.digaly.doodle.rendering.NoRenderer;
+import net.digaly.doodle.rendering.NodeBasedRenderer;
+import net.digaly.doodle.rendering.Renderer;
+
 /**
  * Created by Tom Dobbelaere on 11/10/2016.
  */
@@ -9,10 +13,12 @@ public class ApplicationSettings
     private String title;
     private String iconPath;
     private boolean debugMode;
+    private Renderer renderer;
 
     public ApplicationSettings() {
         this.title = "";
         this.iconPath = "";
+        this.renderer = new NoRenderer();
     }
 
     public boolean isFullscreen()
@@ -53,5 +59,13 @@ public class ApplicationSettings
     public void setDebugMode(boolean debugMode)
     {
         this.debugMode = debugMode;
+    }
+
+    public void setRenderer(Renderer renderer) {
+        this.renderer = renderer;
+    }
+
+    public Renderer getRenderer() {
+        return this.renderer;
     }
 }

@@ -1,5 +1,6 @@
 package net.digaly.doodle;
 
+import com.sun.corba.se.impl.orb.NormalDataCollector;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Effect;
 import javafx.scene.transform.Rotate;
@@ -15,6 +16,7 @@ public class Entity
     private boolean visible;
     private double alpha;
     private int depth;
+    private Room room;
 
     public Entity(Sprite sprite, double x, double y) {
         this.sprite = sprite;
@@ -22,6 +24,7 @@ public class Entity
         this.position = new Point(x, y);
         this.visible = true;
         this.alpha = 1;
+        this.room = new NoRoom();
     }
 
     public Sprite getSprite()
@@ -96,7 +99,7 @@ public class Entity
     }
 
     public void destroy() {
-        //DoodleApplication.getInstance().getCurrentRoom().removeEntity(this);
+        getRoom().removeEntity(this);
     }
 
     public int getDepth()
@@ -107,5 +110,15 @@ public class Entity
     public void setDepth(int depth)
     {
         this.depth = depth;
+    }
+
+    public Room getRoom()
+    {
+        return room;
+    }
+
+    public void setRoom(Room room)
+    {
+        this.room = room;
     }
 }
