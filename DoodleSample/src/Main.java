@@ -34,6 +34,6 @@ public class Main extends DoodleApplication
         myRoom.addEntity(test);
 
         Entity waveIntro = new WaveIntro("STAGE 1", "Do nothing you scrub");
-        myRoom.addEntity(waveIntro);
+        //myRoom.addEntity(waveIntro);
     }
 }

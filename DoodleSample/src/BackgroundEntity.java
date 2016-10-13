@@ -21,9 +21,9 @@ public class BackgroundEntity extends Entity implements FrameDrawListener
     public void onFrameDraw(GraphicsContext gc)
     {
         Room currentRoom = getRoom();
-        setPosition(new Point(currentRoom.getRenderer().getCamera().getTranslateX() + getSprite().getImage().getWidth() / 2,
+        /*setPosition(new Point(currentRoom.getRenderer().getCamera().getTranslateX() + getSprite().getImage().getWidth() / 2,
                 currentRoom.getRenderer().getCamera().getTranslateY() + + getSprite().getImage().getHeight() / 2));
-
+*/
         gc.drawImage(getSprite().getImage(), 0, 0, getWidth(), getHeight());
     }
 }

@@ -33,4 +33,8 @@ public class Sprite
     {
         return offset;
     }
+
+    public void setOffset(Point offset) {
+        this.offset = offset;
+    }
 }

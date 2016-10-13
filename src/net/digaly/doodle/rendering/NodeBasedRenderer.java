@@ -3,6 +3,7 @@ package net.digaly.doodle.rendering;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.effect.Bloom;
 import javafx.scene.shape.Box;
+import net.digaly.doodle.AnimatedSprite;
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.events.FrameDrawListener;
 
@@ -37,6 +38,10 @@ public class NodeBasedRenderer extends Renderer
             } else {
                 newNode.getGraphicsContext2D().drawImage(entity.getSprite().getImage(), 0, 0,
                         entity.getWidth(), entity.getHeight());
+            }
+
+            if (entity.getSprite() instanceof AnimatedSprite) {
+                ((AnimatedSprite) entity.getSprite()).incrementFramesPassed();
             }
 
             newNode.setTranslateX(entity.getPosition().x - entity.getSprite().getOffset().x);

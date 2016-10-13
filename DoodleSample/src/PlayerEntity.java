@@ -6,6 +6,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import net.digaly.doodle.AnimatedSprite;
 import net.digaly.doodle.DoodleApplication;
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.Sprite;
@@ -37,10 +38,12 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
     public PlayerEntity(double x, double y)
     {
         super(new Sprite("ship_n.png"), x, y);
+        //super(new AnimatedSprite(new String[] {"ship_n.png", "hex.png"}, 60), 0, 0);
 
         setDepth(10);
 
-        spriteNone = new Sprite("ship_n.png");
+        //spriteNone = new Sprite("ship_n.png");
+        spriteNone = getSprite();
         spriteForwards = new Sprite("ship_f.png");
         spriteBackwards = new Sprite("ship_b.png");
         spriteBullet = new Sprite("bullet.png");
