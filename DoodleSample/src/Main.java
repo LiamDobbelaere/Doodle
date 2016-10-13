@@ -32,6 +32,10 @@ public class Main extends DoodleApplication
 
         Entity test = new PlayerEntity(64, 64);
         myRoom.addEntity(test);
+        myRoom.addEntity(new GeomEntity(128, 128));
+        myRoom.addEntity(new GeomEntity(140, 128));
+        myRoom.addEntity(new GeomEntity(130, 170));
+        myRoom.addEntity(new GeomEntity(140, 150));
 
         Entity waveIntro = new WaveIntro("STAGE 1", "Do nothing you scrub");
         //myRoom.addEntity(waveIntro);

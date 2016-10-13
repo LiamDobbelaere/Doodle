@@ -1,6 +1,8 @@
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -19,14 +21,13 @@ import static javafx.scene.input.KeyCode.Z;
 /**
  * Created by Tom Dobbelaere on 2/10/2016.
  */
-public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEventListener, MouseEventListener//, FrameDrawListener
+public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEventListener, MouseEventListener
 {
     private double speed;
     private int turnSpeed = 5;
 
-    private Sprite spriteForwards;
-    private Sprite spriteBackwards;
     private Sprite spriteNone;
+    private Sprite spriteFlying;
     private Sprite spriteBullet;
 
     private Random random;
@@ -37,15 +38,13 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
 
     public PlayerEntity(double x, double y)
     {
-        super(new Sprite("ship_n.png"), x, y);
-        //super(new AnimatedSprite(new String[] {"ship_n.png", "hex.png"}, 60), 0, 0);
+        super(new Sprite("v2\\ship_n.png"), 0, 0);
 
         setDepth(10);
 
         //spriteNone = new Sprite("ship_n.png");
         spriteNone = getSprite();
-        spriteForwards = new Sprite("ship_f.png");
-        spriteBackwards = new Sprite("ship_b.png");
+        spriteFlying = new AnimatedSprite(new String[] {"v2\\ship_flyingA.png", "v2\\ship_flyingB.png"}, 5);
         spriteBullet = new Sprite("bullet.png");
         random = new Random();
 
@@ -62,7 +61,6 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
         Group root = getRoom().getRenderer().getRoot();
         camera.setTranslateX(getPosition().x - getSprite().getOffset().x - root.getScene().getWidth() / 2);
         camera.setTranslateY(getPosition().y - getSprite().getOffset().y - root.getScene().getHeight() / 2);
-
 
         getPosition().translate(Math.cos(getAngle() * 0.017) * speed, Math.sin(getAngle() * 0.017) * speed);
 
@@ -84,7 +82,7 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
 
         turnSpeed = 5 - (int) speed / 2;
 
-        getRoom().addEntity(new TrailEntity(getSprite(), getPosition().x, getPosition().y, getAngle(), 0.2, 0.01));
+        //getRoom().addEntity(new TrailEntity(getSprite(), getPosition().x, getPosition().y, getAngle(), 0.2, 0.01));
 
         setSprite(spriteNone);
 
@@ -98,11 +96,11 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
             switch (keyEvent.getCode()) {
                 case Z:
                     speed += 0.2;
-                    setSprite(spriteForwards);
+                    setSprite(spriteFlying);
                     break;
                 case S:
                     speed -= 0.2;
-                    setSprite(spriteBackwards);
+                    setSprite(spriteFlying);
                     break;
                 case Q:
                     setAngle(getAngle() - turnSpeed);
@@ -152,6 +150,7 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
             shoot();
         }
     }
+
 /*
     @Override
     public void onFrameDraw(GraphicsContext gc)
