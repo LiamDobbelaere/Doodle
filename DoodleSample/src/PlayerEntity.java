@@ -12,6 +12,7 @@ import net.digaly.doodle.AnimatedSprite;
 import net.digaly.doodle.DoodleApplication;
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.Sprite;
+import net.digaly.doodle.collision.BoxCollider;
 import net.digaly.doodle.events.*;
 
 import java.util.Random;
@@ -21,7 +22,7 @@ import static javafx.scene.input.KeyCode.Z;
 /**
  * Created by Tom Dobbelaere on 2/10/2016.
  */
-public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEventListener, MouseEventListener
+public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEventListener, MouseEventListener, CollisionEventListener
 {
     private double speed;
     private int turnSpeed = 5;
@@ -41,6 +42,7 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
         super(new Sprite("v2\\ship_n.png"), 0, 0);
 
         setDepth(10);
+        setCollider(new BoxCollider(this));
 
         //spriteNone = new Sprite("ship_n.png");
         spriteNone = getSprite();
@@ -149,6 +151,18 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
         if (event.getButton() == MouseButton.PRIMARY && state == MouseState.HOLDING) {
             shoot();
         }
+    }
+
+    @Override
+    public void onCollision(Entity other)
+    {
+        if (other instanceof GeomEntity) {
+            if (((GeomEntity) other).canPickup()) {
+                //Geom collected
+                other.destroy();
+            }
+        }
+
     }
 
 /*

@@ -1,5 +1,6 @@
 package net.digaly.doodle.collision;
 
+import net.digaly.doodle.Entity;
 import net.digaly.doodle.Point;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -9,6 +10,12 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public abstract class Collider
 {
     protected Point position;
+    protected Entity entity;
+
+    public Collider(Entity entity, double x, double y) {
+        this.position = new Point(x, y);
+        this.entity = entity;
+    }
 
     public boolean overlaps(Collider other)
     {

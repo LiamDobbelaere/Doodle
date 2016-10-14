@@ -28,7 +28,7 @@ public class Entity
         this.visible = true;
         this.alpha = 1;
         this.room = new NoRoom();
-        this.collider = new NoCollider();
+        this.collider = new NoCollider(this);
     }
 
     public Sprite getSprite()

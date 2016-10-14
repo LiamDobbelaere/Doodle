@@ -1,18 +1,23 @@
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.Sprite;
+import net.digaly.doodle.collision.BoxCollider;
+import net.digaly.doodle.events.CollisionEventListener;
 import net.digaly.doodle.events.FrameUpdateListener;
 
 /**
  * Created by Tom Dobbelaere on 13/10/2016.
  */
-public class GeomEntity extends Entity implements FrameUpdateListener
+public class GeomEntity extends Entity implements FrameUpdateListener, CollisionEventListener
 {
     private double speed;
     private boolean foundPlayer;
+    private boolean canPickup;
 
     public GeomEntity(double x, double y)
     {
         super(new Sprite("v2\\geom.png"), x, y);
+        setCollider(new BoxCollider(this));
+        canPickup = false;
     }
 
     @Override
@@ -33,9 +38,19 @@ public class GeomEntity extends Entity implements FrameUpdateListener
                 getPosition().translate(Math.cos(angle * 0.017) * -speed, Math.sin(angle * 0.017) * -speed);
             }
 
-            if (distance <= 16) destroy();
+            if (distance <= 16) canPickup = true;
         }
 
         if (speed < 10) speed+=0.15;
+    }
+
+    @Override
+    public void onCollision(Entity other)
+    {
+
+    }
+
+    public boolean canPickup() {
+        return canPickup;
     }
 }

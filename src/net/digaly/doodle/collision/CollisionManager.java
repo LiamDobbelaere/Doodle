@@ -1,6 +1,7 @@
 package net.digaly.doodle.collision;
 
 import net.digaly.doodle.Entity;
+import net.digaly.doodle.events.CollisionEventListener;
 import net.digaly.doodle.events.EventDispatcher;
 import net.digaly.doodle.events.NoEventDispatcher;
 
@@ -12,14 +13,23 @@ import java.util.List;
 public class CollisionManager
 {
     private List<Entity> entities;
-    private EventDispatcher eventDispatcher;
 
     public CollisionManager() {
-        this.eventDispatcher = new NoEventDispatcher();
+
     }
 
     public void checkCollisions() {
+        for (Entity entity : entities) {
+            if (!(entity instanceof CollisionEventListener)) continue;
 
+            for (Entity other : entities) {
+                if (!(other instanceof CollisionEventListener) || other == entity) continue;
+
+                if (entity.getCollider().overlaps(other.getCollider())) {
+                    ((CollisionEventListener) entity).onCollision(other);
+                }
+            }
+        }
     }
 
     public List<Entity> getEntities()
@@ -30,10 +40,5 @@ public class CollisionManager
     public void setEntities(List<Entity> entities)
     {
         this.entities = entities;
-    }
-
-    public void setEventDispatcher(EventDispatcher eventDispatcher)
-    {
-        this.eventDispatcher = eventDispatcher;
     }
 }

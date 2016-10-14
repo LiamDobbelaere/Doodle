@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import net.digaly.doodle.audio.SoundManager;
+import net.digaly.doodle.collision.CollisionManager;
 import net.digaly.doodle.events.EventDispatcher;
 import net.digaly.doodle.input.InputManager;
 import net.digaly.doodle.rendering.Renderer;
@@ -22,6 +23,7 @@ public abstract class DoodleApplication extends Application
     private EventDispatcher eventDispatcher;
     private InputManager inputManager;
     private FrameUpdater frameUpdater;
+    private CollisionManager collisionManager;
     private SoundManager soundManager;
 
     //Initialize inputmanager and stuff in start!!!
@@ -32,6 +34,7 @@ public abstract class DoodleApplication extends Application
         this.eventDispatcher = new EventDispatcher();
         this.frameUpdater = new FrameUpdater();
         this.soundManager = new SoundManager();
+        this.collisionManager = new CollisionManager();
         this.stage = primaryStage;
 
         setCurrentRoom(new Room(800, 600));
@@ -55,12 +58,16 @@ public abstract class DoodleApplication extends Application
         renderer.setRoot(root);
         renderer.setEntities(currentRoom.getEntities());
 
+        collisionManager.setEntities(currentRoom.getEntities());
+
         inputManager = new InputManager(mainScene);
         inputManager.setEventDispatcher(eventDispatcher);
 
         frameUpdater.setEventDispatcher(eventDispatcher);
         frameUpdater.setRenderer(renderer);
         frameUpdater.setInputManager(inputManager);
+        frameUpdater.setCollisionManager(collisionManager);
+
         frameUpdater.start();
 
         //Canvas canvas = new Canvas(instance.currentRoom.getSize().getWidth(), instance.currentRoom.getSize().getHeight());
@@ -78,6 +85,7 @@ public abstract class DoodleApplication extends Application
         this.currentRoom.setSoundManager(this.soundManager);
 
         renderer.setEntities(this.currentRoom.getEntities());
+        collisionManager.setEntities(this.currentRoom.getEntities());
 
         stage.setWidth(this.currentRoom.getSize().getWidth());
         stage.setHeight(this.currentRoom.getSize().getHeight());
