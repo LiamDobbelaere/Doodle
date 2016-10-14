@@ -2,6 +2,8 @@ package net.digaly.doodle;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.transform.Rotate;
+import net.digaly.doodle.collision.Collider;
+import net.digaly.doodle.collision.NoCollider;
 
 /**
  * Created by Tom Dobbelaere on 2/10/2016.
@@ -16,6 +18,7 @@ public class Entity
     private int depth;
     private double width;
     private double height;
+    private Collider collider;
     private Room room;
 
     public Entity(Sprite sprite, double x, double y) {
@@ -25,6 +28,7 @@ public class Entity
         this.visible = true;
         this.alpha = 1;
         this.room = new NoRoom();
+        this.collider = new NoCollider();
     }
 
     public Sprite getSprite()
@@ -145,5 +149,15 @@ public class Entity
     public void setHeight(double height)
     {
         this.height = height;
+    }
+
+    public Collider getCollider()
+    {
+        return collider;
+    }
+
+    public void setCollider(Collider collider)
+    {
+        this.collider = collider;
     }
 }
