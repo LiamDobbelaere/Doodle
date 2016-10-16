@@ -18,6 +18,7 @@ public abstract class Renderer
     private Group root;
     private List<Entity> entities;
     private Effect effect;
+    private boolean debugDraw;
 
     public Renderer() {
         this.effect = new Bloom(1); //Small hack to enforce re-rendering to draw everything on top (effect causes re-draw)
@@ -61,5 +62,14 @@ public abstract class Renderer
     public void setEffect(Effect effect)
     {
         this.effect = effect;
+    }
+
+    public void setDebugDraw(boolean debugDraw)
+    {
+        this.debugDraw = debugDraw;
+    }
+
+    public boolean getDebugDraw() {
+        return this.debugDraw;
     }
 }

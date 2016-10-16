@@ -16,7 +16,7 @@ public class GeomEntity extends Entity implements FrameUpdateListener, Collision
     public GeomEntity(double x, double y)
     {
         super(new Sprite("v2\\geom.png"), x, y);
-        setCollider(new BoxCollider(this));
+        setCollider(new BoxCollider(this, getSprite().getOffset().x - 8, getSprite().getOffset().y - 16, 16, 32));
         canPickup = false;
     }
 
@@ -44,13 +44,25 @@ public class GeomEntity extends Entity implements FrameUpdateListener, Collision
         if (speed < 10) speed+=0.15;
     }
 
+    public boolean canPickup() {
+        return canPickup;
+    }
+
     @Override
-    public void onCollision(Entity other)
+    public void onCollisionStay(Entity other)
     {
 
     }
 
-    public boolean canPickup() {
-        return canPickup;
+    @Override
+    public void onCollisionEnter(Entity other)
+    {
+
+    }
+
+    @Override
+    public void onCollisionExit(Entity other)
+    {
+
     }
 }

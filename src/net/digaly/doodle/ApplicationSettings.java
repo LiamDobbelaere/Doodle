@@ -14,12 +14,14 @@ public class ApplicationSettings
     private boolean debugMode;
     private Renderer renderer;
     private boolean depthBuffer;
+    private int maxSoundSpawn;
 
     public ApplicationSettings() {
         this.title = "";
         this.iconPath = "";
         this.renderer = new NoRenderer();
         this.depthBuffer = false;
+        this.maxSoundSpawn = 10;
     }
 
     public boolean isFullscreen()
@@ -76,5 +78,20 @@ public class ApplicationSettings
 
     public boolean getDepthBuffer() {
         return this.depthBuffer;
+    }
+
+    public boolean isDepthBuffer()
+    {
+        return depthBuffer;
+    }
+
+    public int getMaxSoundSpawn()
+    {
+        return maxSoundSpawn;
+    }
+
+    public void setMaxSoundSpawn(int maxSoundSpawn)
+    {
+        this.maxSoundSpawn = maxSoundSpawn;
     }
 }

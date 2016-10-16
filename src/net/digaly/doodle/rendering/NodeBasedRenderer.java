@@ -40,6 +40,10 @@ public class NodeBasedRenderer extends Renderer
                         entity.getWidth(), entity.getHeight());
             }
 
+            if (getDebugDraw()) {
+                entity.getCollider().debugDraw(newNode.getGraphicsContext2D());
+            }
+
             if (entity.getSprite() instanceof AnimatedSprite) {
                 ((AnimatedSprite) entity.getSprite()).incrementFramesPassed();
             }

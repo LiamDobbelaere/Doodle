@@ -111,10 +111,4 @@ public class NoEventDispatcher extends EventDispatcher
     {
 
     }
-
-    @Override
-    public void notifyCollisionEventListeners(Entity other)
-    {
-
-    }
 }

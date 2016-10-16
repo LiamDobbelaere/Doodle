@@ -22,7 +22,7 @@ import static javafx.scene.input.KeyCode.Z;
 /**
  * Created by Tom Dobbelaere on 2/10/2016.
  */
-public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEventListener, MouseEventListener, CollisionEventListener
+public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEventListener, MouseEventListener, CollisionEventListener, FrameDrawListener
 {
     private double speed;
     private int turnSpeed = 5;
@@ -39,15 +39,15 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
 
     public PlayerEntity(double x, double y)
     {
-        super(new Sprite("v2\\ship_n.png"), 0, 0);
+        super(new Sprite("doodle\\ship_normal.png"), 0, 0);
 
         setDepth(10);
-        setCollider(new BoxCollider(this));
+        setCollider(new BoxCollider(this, getSprite().getOffset().x - 16, getSprite().getOffset().y - 16, 32, 32));
 
         //spriteNone = new Sprite("ship_n.png");
         spriteNone = getSprite();
-        spriteFlying = new AnimatedSprite(new String[] {"v2\\ship_flyingA.png", "v2\\ship_flyingB.png"}, 5);
-        spriteBullet = new Sprite("bullet.png");
+        spriteFlying = new Sprite("doodle\\ship_normal.png");//new AnimatedSprite(new String[] {"v2\\ship_flyingA.png", "v2\\ship_flyingB.png"}, 5);
+        spriteBullet = new Sprite("doodle\\bullet.png");
         random = new Random();
 
         shootDelay = 0;
@@ -61,10 +61,28 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
     {
         Camera camera = getRoom().getRenderer().getCamera();
         Group root = getRoom().getRenderer().getRoot();
-        camera.setTranslateX(getPosition().x - getSprite().getOffset().x - root.getScene().getWidth() / 2);
-        camera.setTranslateY(getPosition().y - getSprite().getOffset().y - root.getScene().getHeight() / 2);
 
-        getPosition().translate(Math.cos(getAngle() * 0.017) * speed, Math.sin(getAngle() * 0.017) * speed);
+        double camTargetX = getPosition().x - root.getScene().getWidth() / 2;
+        double camTargetY = getPosition().y - root.getScene().getHeight() / 2;
+
+        if (camTargetX > 0 && camTargetX < getRoom().getSize().getWidth() - root.getScene().getWidth()) {
+            camera.setTranslateX(camTargetX);
+        }
+
+        if (camTargetY > 0 && camTargetY < getRoom().getSize().getHeight() - root.getScene().getHeight()) {
+            camera.setTranslateY(camTargetY);
+        }
+
+        double targetTranslateX = Math.cos(getAngle() * 0.017) * speed;
+        double targetTranslateY = Math.sin(getAngle() * 0.017) * speed;
+
+        if (getPosition().x + targetTranslateX > 0 && getPosition().x + targetTranslateX < getRoom().getSize().getWidth()) {
+            getPosition().translate(Math.cos(getAngle() * 0.017) * speed, 0);
+        }
+
+        if (getPosition().y + targetTranslateY > 0 && getPosition().y + targetTranslateY < getRoom().getSize().getHeight()) {
+            getPosition().translate(0, Math.sin(getAngle() * 0.017) * speed);
+        }
 
         //Speed limiting
         if (speed > 6)
@@ -154,14 +172,35 @@ public class PlayerEntity extends Entity implements FrameUpdateListener, KeyEven
     }
 
     @Override
-    public void onCollision(Entity other)
+    public void onFrameDraw(GraphicsContext gc)
+    {
+        gc.save();
+        gc.setGlobalBlendMode(BlendMode.HARD_LIGHT);
+        gc.drawImage(getSprite().getImage(), 0, 0);
+        gc.restore();
+    }
+
+    @Override
+    public void onCollisionStay(Entity other)
     {
         if (other instanceof GeomEntity) {
             if (((GeomEntity) other).canPickup()) {
                 //Geom collected
+                getRoom().getSoundManager().playSound("DoodleSample\\res\\collect.wav", 0.3);
                 other.destroy();
             }
         }
+    }
+
+    @Override
+    public void onCollisionEnter(Entity other)
+    {
+
+    }
+
+    @Override
+    public void onCollisionExit(Entity other)
+    {
 
     }
 

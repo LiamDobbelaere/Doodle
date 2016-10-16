@@ -7,5 +7,7 @@ import net.digaly.doodle.Entity;
  */
 public interface CollisionEventListener
 {
-    void onCollision(Entity other);
+    void onCollisionStay(Entity other);
+    void onCollisionEnter(Entity other);
+    void onCollisionExit(Entity other);
 }

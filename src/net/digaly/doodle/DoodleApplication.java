@@ -46,7 +46,7 @@ public abstract class DoodleApplication extends Application
         }
 
         Group root = new Group();
-        Scene mainScene = new Scene(root, currentRoom.getSize().getWidth(), currentRoom.getSize().getHeight(), settings.getDepthBuffer(), SceneAntialiasing.BALANCED);
+        Scene mainScene = new Scene(root, 1024, 768, settings.getDepthBuffer(), SceneAntialiasing.BALANCED);
         mainScene.setFill(Color.BLACK);
 
         Camera camera = new PerspectiveCamera();
@@ -54,9 +54,12 @@ public abstract class DoodleApplication extends Application
 
         stage.setScene(mainScene);
 
+        soundManager.setMaxSoundSpawn(settings.getMaxSoundSpawn());
+
         renderer.setCamera(mainScene.getCamera());
         renderer.setRoot(root);
         renderer.setEntities(currentRoom.getEntities());
+        renderer.setDebugDraw(settings.isDebugMode());
 
         collisionManager.setEntities(currentRoom.getEntities());
 
@@ -87,8 +90,8 @@ public abstract class DoodleApplication extends Application
         renderer.setEntities(this.currentRoom.getEntities());
         collisionManager.setEntities(this.currentRoom.getEntities());
 
-        stage.setWidth(this.currentRoom.getSize().getWidth());
-        stage.setHeight(this.currentRoom.getSize().getHeight());
+        //stage.setWidth(this.currentRoom.getSize().getWidth());
+        //stage.setHeight(this.currentRoom.getSize().getHeight());
     }
 
     public abstract void onApplicationReady();

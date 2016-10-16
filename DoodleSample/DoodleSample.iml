@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Doodle" />
+    <orderEntry type="library" name="io.socket:socket.io-client:0.8.1" level="project" />
   </component>
 </module>

@@ -1,5 +1,6 @@
 package net.digaly.doodle.collision;
 
+import javafx.scene.canvas.GraphicsContext;
 import net.digaly.doodle.Entity;
 
 /**
@@ -16,5 +17,10 @@ public class NoCollider extends Collider
     public boolean overlaps(Collider other)
     {
         return false;
+    }
+
+    @Override
+    public void debugDraw(GraphicsContext gc) {
+
     }
 }

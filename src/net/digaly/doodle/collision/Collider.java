@@ -1,5 +1,6 @@
 package net.digaly.doodle.collision;
 
+import javafx.scene.canvas.GraphicsContext;
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.Point;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -19,6 +20,10 @@ public abstract class Collider
 
     public boolean overlaps(Collider other)
     {
+        throw new NotImplementedException();
+    }
+
+    public void debugDraw(GraphicsContext gc) {
         throw new NotImplementedException();
     }
 }

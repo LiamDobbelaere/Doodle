@@ -34,7 +34,7 @@ public class BulletEntity extends Entity implements FrameUpdateListener, Collisi
     }
 
     @Override
-    public void onCollision(Entity other)
+    public void onCollisionStay(Entity other)
     {
         /*if (other instanceof EnemyEntity) {
             DoodleApplication.getInstance().getSoundManager().playSound("res\\hit.wav", 0.2);
@@ -47,5 +47,17 @@ public class BulletEntity extends Entity implements FrameUpdateListener, Collisi
             ((DefensePostEntity) other).damage(1);
             destroy();
         }*/
+    }
+
+    @Override
+    public void onCollisionEnter(Entity other)
+    {
+
+    }
+
+    @Override
+    public void onCollisionExit(Entity other)
+    {
+
     }
 }

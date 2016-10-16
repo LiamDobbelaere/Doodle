@@ -1,5 +1,7 @@
 package net.digaly.doodle.collision;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.Point;
 
@@ -43,6 +45,13 @@ public class BoxCollider extends Collider
 
     public double getActualY() {
         return entity.getPosition().y - entity.getSprite().getOffset().y + position.y;
+    }
+
+    @Override
+    public void debugDraw(GraphicsContext gc)
+    {
+        gc.setStroke(Color.GREEN);
+        gc.strokeRect(position.x, position.y, width, height);
     }
 
     public void setWidth(double width)
