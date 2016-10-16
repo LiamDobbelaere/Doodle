@@ -1,5 +1,3 @@
-package net.digaly.doodle.sample;
-
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.Sprite;
 import net.digaly.doodle.events.FrameUpdateListener;

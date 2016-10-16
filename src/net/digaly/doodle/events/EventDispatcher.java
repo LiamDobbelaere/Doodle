@@ -106,12 +106,4 @@ public class EventDispatcher
     public void removeCollisionEventListener(CollisionEventListener listener) {
         collisionEventListeners.remove(listener);
     }
-
-    public void notifyCollisionEventListeners(Entity other) {
-        for (CollisionEventListener listener : collisionEventListeners) {
-            listener.onCollision(other);
-        }
-    }
-
-
 }

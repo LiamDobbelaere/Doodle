@@ -1,6 +1,10 @@
 package net.digaly.doodle;
 
+import net.digaly.doodle.audio.NoSoundManager;
+import net.digaly.doodle.audio.SoundManager;
 import net.digaly.doodle.events.*;
+import net.digaly.doodle.rendering.NoRenderer;
+import net.digaly.doodle.rendering.Renderer;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,12 +19,17 @@ public class Room
 {
     private List<Entity> entities;
     private Dimension size;
-
+    private EventDispatcher eventDispatcher;
+    private Renderer renderer;
+    private SoundManager soundManager;
     private Sprite background;
 
     public Room(int width, int height) {
         this.entities = new CopyOnWriteArrayList<>();
         this.size = new Dimension(width, height);
+        this.eventDispatcher = new NoEventDispatcher();
+        this.renderer = new NoRenderer();
+        this.soundManager = new NoSoundManager();
     }
 
     public void sortEntitiesByDepth() {
@@ -28,52 +37,54 @@ public class Room
     }
 
     public void addEntity(Entity entity) {
+        entity.setRoom(this);
         this.entities.add(entity);
 
         if (entity instanceof FrameUpdateListener) {
-            DoodleApplication.getInstance().getEventDispatcher().addFrameUpdateListener((FrameUpdateListener) entity);
+            eventDispatcher.addFrameUpdateListener((FrameUpdateListener) entity);
         }
 
         if (entity instanceof KeyEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().addKeyEventListener((KeyEventListener) entity);
+            eventDispatcher.addKeyEventListener((KeyEventListener) entity);
         }
 
         if (entity instanceof FrameDrawListener) {
-            DoodleApplication.getInstance().getEventDispatcher().addFrameDrawListener((FrameDrawListener) entity);
+            eventDispatcher.addFrameDrawListener((FrameDrawListener) entity);
         }
 
         if (entity instanceof MouseEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().addMouseEventListener((MouseEventListener) entity);
+            eventDispatcher.addMouseEventListener((MouseEventListener) entity);
         }
 
         if (entity instanceof CollisionEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().addCollisionEventListener((CollisionEventListener) entity);
+            eventDispatcher.addCollisionEventListener((CollisionEventListener) entity);
         }
 
         sortEntitiesByDepth();
     }
 
     public void removeEntity(Entity entity) {
+        entity.setRoom(new NoRoom());
         this.entities.remove(entity);
 
         if (entity instanceof FrameUpdateListener) {
-            DoodleApplication.getInstance().getEventDispatcher().removeFrameUpdateListener((FrameUpdateListener) entity);
+            eventDispatcher.removeFrameUpdateListener((FrameUpdateListener) entity);
         }
 
         if (entity instanceof KeyEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().removeKeyEventListener((KeyEventListener) entity);
+            eventDispatcher.removeKeyEventListener((KeyEventListener) entity);
         }
 
         if (entity instanceof FrameDrawListener) {
-            DoodleApplication.getInstance().getEventDispatcher().removeFrameDrawListener((FrameDrawListener) entity);
+            eventDispatcher.removeFrameDrawListener((FrameDrawListener) entity);
         }
 
         if (entity instanceof MouseEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().removeMouseEventListener((MouseEventListener) entity);
+            eventDispatcher.removeMouseEventListener((MouseEventListener) entity);
         }
 
         if (entity instanceof CollisionEventListener) {
-            DoodleApplication.getInstance().getEventDispatcher().removeCollisionEventListener((CollisionEventListener) entity);
+            eventDispatcher.removeCollisionEventListener((CollisionEventListener) entity);
         }
 
         sortEntitiesByDepth();
@@ -127,5 +138,30 @@ public class Room
         }
 
         entities = null;
+    }
+
+    public void setEventDispatcher(EventDispatcher eventDispatcher)
+    {
+        this.eventDispatcher = eventDispatcher;
+    }
+
+    public Renderer getRenderer()
+    {
+        return renderer;
+    }
+
+    public void setRenderer(Renderer renderer)
+    {
+        this.renderer = renderer;
+    }
+
+    public SoundManager getSoundManager()
+    {
+        return soundManager;
+    }
+
+    public void setSoundManager(SoundManager soundManager)
+    {
+        this.soundManager = soundManager;
     }
 }

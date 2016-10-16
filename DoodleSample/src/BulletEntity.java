@@ -1,5 +1,3 @@
-package net.digaly.doodle.sample;
-
 import net.digaly.doodle.DoodleApplication;
 import net.digaly.doodle.Entity;
 import net.digaly.doodle.Sprite;
@@ -20,6 +18,7 @@ public class BulletEntity extends Entity implements FrameUpdateListener, Collisi
         setAngle(angle);
         this.speed = speed;
         this.frames = 0;
+        setDepth(5);
     }
 
     @Override
@@ -35,18 +34,30 @@ public class BulletEntity extends Entity implements FrameUpdateListener, Collisi
     }
 
     @Override
-    public void onCollision(Entity other)
+    public void onCollisionStay(Entity other)
     {
-        if (other instanceof EnemyEntity) {
+        /*if (other instanceof EnemyEntity) {
             DoodleApplication.getInstance().getSoundManager().playSound("res\\hit.wav", 0.2);
             ((EnemyEntity) other).damage(1);
             destroy();
-        }
+        }*/
 
         /*if (other instanceof DefensePostEntity) {
             DoodleApplication.getInstance().getSoundManager().playSound("res\\hit.wav", 0.2);
             ((DefensePostEntity) other).damage(1);
             destroy();
         }*/
+    }
+
+    @Override
+    public void onCollisionEnter(Entity other)
+    {
+
+    }
+
+    @Override
+    public void onCollisionExit(Entity other)
+    {
+
     }
 }

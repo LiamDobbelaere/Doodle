@@ -1,8 +1,9 @@
 package net.digaly.doodle;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Effect;
 import javafx.scene.transform.Rotate;
+import net.digaly.doodle.collision.Collider;
+import net.digaly.doodle.collision.NoCollider;
 
 /**
  * Created by Tom Dobbelaere on 2/10/2016.
@@ -15,13 +16,19 @@ public class Entity
     private boolean visible;
     private double alpha;
     private int depth;
+    private double width;
+    private double height;
+    private Collider collider;
+    private Room room;
 
     public Entity(Sprite sprite, double x, double y) {
-        this.sprite = sprite;
+        setSprite(sprite);
         this.angle = 0;
         this.position = new Point(x, y);
         this.visible = true;
         this.alpha = 1;
+        this.room = new NoRoom();
+        this.collider = new NoCollider(this);
     }
 
     public Sprite getSprite()
@@ -32,6 +39,11 @@ public class Entity
     public void setSprite(Sprite sprite)
     {
         this.sprite = sprite;
+
+        if (sprite.getImage() != null) {
+            setWidth(sprite.getImage().getWidth());
+            setHeight(sprite.getImage().getHeight());
+        }
     }
 
     public int getAngle()
@@ -96,7 +108,7 @@ public class Entity
     }
 
     public void destroy() {
-        DoodleApplication.getInstance().getCurrentRoom().removeEntity(this);
+        getRoom().removeEntity(this);
     }
 
     public int getDepth()
@@ -107,5 +119,45 @@ public class Entity
     public void setDepth(int depth)
     {
         this.depth = depth;
+    }
+
+    public Room getRoom()
+    {
+        return room;
+    }
+
+    public void setRoom(Room room)
+    {
+        this.room = room;
+    }
+
+    public double getWidth()
+    {
+        return width;
+    }
+
+    public void setWidth(double width)
+    {
+        this.width = width;
+    }
+
+    public double getHeight()
+    {
+        return height;
+    }
+
+    public void setHeight(double height)
+    {
+        this.height = height;
+    }
+
+    public Collider getCollider()
+    {
+        return collider;
+    }
+
+    public void setCollider(Collider collider)
+    {
+        this.collider = collider;
     }
 }

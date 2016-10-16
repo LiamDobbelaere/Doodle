@@ -1,15 +1,10 @@
-package net.digaly.doodle.sample;
-
 import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import net.digaly.doodle.DoodleApplication;
-import net.digaly.doodle.Entity;
-import net.digaly.doodle.Room;
-import net.digaly.doodle.Sprite;
+import net.digaly.doodle.*;
 import net.digaly.doodle.events.FrameDrawListener;
 
 /**
@@ -26,7 +21,7 @@ public class WaveIntro extends Entity implements FrameDrawListener
 
     public WaveIntro(String text, String subtext)
     {
-        super(null, 0, 0);
+        super(new Sprite(), 0, 0);
         setDepth(1000);
         this.text = text;
         this.subtext = subtext;
@@ -40,7 +35,11 @@ public class WaveIntro extends Entity implements FrameDrawListener
     @Override
     public void onFrameDraw(GraphicsContext gc)
     {
-        Room currentRoom = DoodleApplication.getInstance().getCurrentRoom();
+        Room currentRoom = getRoom();
+        setWidth(getRoom().getSize().getWidth());
+        setHeight(getRoom().getSize().getHeight());
+
+        setPosition(new Point(currentRoom.getRenderer().getCamera().getTranslateX(), currentRoom.getRenderer().getCamera().getTranslateY()));
 
         gc.setFill(Color.DARKBLUE);
         gc.save();
@@ -58,7 +57,7 @@ public class WaveIntro extends Entity implements FrameDrawListener
 
         if (frames % 10 == 0) {
             if (textPosition < text.length()) {
-                DoodleApplication.getInstance().getSoundManager().playSound("res\\type.wav", 0.2);
+                getRoom().getSoundManager().playSound("DoodleSample\\res\\type.wav", 0.2);
                 textPosition += 1;
             }
         }
@@ -66,7 +65,7 @@ public class WaveIntro extends Entity implements FrameDrawListener
         if (frames % 2 == 0) {
             if (frames > 90) {
                 if (subtextPosition < subtext.length()) {
-                    DoodleApplication.getInstance().getSoundManager().playSound("res\\type2.wav", 0.2);
+                    getRoom().getSoundManager().playSound("DoodleSample\\res\\type2.wav", 0.2);
                     subtextPosition += 1;
                 }
             }
@@ -87,7 +86,7 @@ public class WaveIntro extends Entity implements FrameDrawListener
         }
 
         if (getAlpha() <= 0) {
-            DoodleApplication.getInstance().getSoundManager().playMusic("res\\music.mp3", 0.5);
+            getRoom().getSoundManager().playMusic("DoodleSample\\res\\music.mp3", 0.5);
             destroy();
         }
     }
