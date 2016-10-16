@@ -103,6 +103,6 @@ _Use when you want to know when a new frame starts_
 * FrameDrawListener  
 _Use when you want to know when a new frame is drawn, and maybe add custom draw code for your entity_
 * CollisionEventListener  
-_Use when you want to know when an entity Enters, Exits or Stays in collision with another entity. (Note that your entity must have a collider assigned by using setCollider(new BoxCollider(this, 0, 0, getWidth(), getHeight()) for example)
+_Use when you want to know when an entity Enters, Exits or Stays in collision with another entity. (Note that your entity must have a collider assigned by using setCollider(new BoxCollider(this, 0, 0, getWidth(), getHeight()) for example)_
 
 When an entity is **added to a room**, it will automatically subscribe to the events that it needs and receive updates in the respective methods like you see above.
