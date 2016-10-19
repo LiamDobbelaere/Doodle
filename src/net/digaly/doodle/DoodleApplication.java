@@ -94,5 +94,10 @@ public abstract class DoodleApplication extends Application
         //stage.setHeight(this.currentRoom.getSize().getHeight());
     }
 
+    public Room getCurrentRoom()
+    {
+        return currentRoom;
+    }
+
     public abstract void onApplicationReady();
 }
